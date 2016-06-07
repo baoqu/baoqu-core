@@ -1,6 +1,7 @@
-(ns baoqu-core.core)
+(ns baoqu-core.core
+  (:gen-class))
 
-(defn foo
+(defn -main
   "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
+  [& args]
+  (apply println "Hello, World!" args))
