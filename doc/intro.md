@@ -1,3 +1,12 @@
-# Introduction to baoqu-core
+# Introduction
 
-TODO: write [great documentation](http://jacobian.org/writing/what-to-write/)
+This module is intended to contain all the logic related to the core of **Baoqu**, providing a dependency to be used from a wrapper project.
+
+The first planned usage of this module is the **Baoqu Platform**, a web platform that will make possible to take decissions betweet a big group of users.
+
+## Basic usage
+
+This library will have two main components:
+
+- **The state object:** an immutable object that will containt the state of the application.
+- **Functional API:** an API to update and modify the state.
