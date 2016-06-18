@@ -8,5 +8,5 @@ The first planned usage of this module is the **Baoqu Platform**, a web platform
 
 This library will have two main components:
 
-- **The state object:** an immutable object that will containt the state of the application.
+- **The event object:** an immutable object that will containt the state of each event in the application.
 - **Functional API:** an API to update and modify the state.
