@@ -18,6 +18,7 @@ It contains **circles**, **users** and **ideas**, and it also stores the users t
     "id": 1,
     "name": "What should we do with our last budget?"
     "circle-size": 3,
+    "approval-factor": 3,
     "revolver-user-ids": [12, 7]
 }
 ```
