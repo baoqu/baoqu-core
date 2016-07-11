@@ -26,6 +26,9 @@ create table users_circles (
 insert into circles (event_id, level, parent_circle)
 values (:event-id, :level, :parent-circle)
 
+-- :name q-get-all :?
+select * from circles
+
 -- :name q-get-by-id :? :1
 select * from circles
 where id=:id
@@ -34,5 +37,5 @@ where id=:id
 insert into users_circles (user_id, circle_id)
 values (:user-id, :circle-id)
 
--- :name q-get-all-incomplete :? :*
+-- :name q-get-all-incomplete :?
 select c.id from circles as c left join users_circles as cs on (c.id=cs.circle_id) where c.event_id=:event-id group by c.id having count(cs.user_id) < :circle-size;

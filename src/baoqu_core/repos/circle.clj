@@ -13,6 +13,9 @@
 (defn get-by-id [id]
   (q-get-by-id db {:id id}))
 
+(defn get-all []
+  (q-get-all db))
+
 (defn create [event-id level parent-circle]
   (let [data {:event-id event-id :level level :parent-circle parent-circle}
         res (q-insert-circle db data)

@@ -13,7 +13,6 @@
             "remove-db" ["run" "-m" "baoqu-core.database.scripts/delete"]
             "reload-db" ["run" "-m" "baoqu-core.database.scripts/reload"]}
   :jar-exclusions [#"user\.clj"]
-  :profiles {:dev {:main baoqu-core.core}}
   :codox {:source-paths ["src"]
           :language :clojure
           :metadata {:doc/format :markdown}})
