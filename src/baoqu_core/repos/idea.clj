@@ -34,3 +34,8 @@
           new-id (get-id-from-insert res)]
       (get-by-id new-id)))
   (get-by-id idea-id))
+
+(defn downvote-idea [user-id idea-id]
+  (if (is-upvoted? user-id idea-id)
+    (q-downvote db {:user-id user-id :idea-id idea-id}))
+  (get-by-id idea-id))

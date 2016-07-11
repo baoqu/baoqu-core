@@ -8,3 +8,11 @@
   ;; check if circle should grow
 
   )
+
+
+(defn downvote [user idea]
+  (idea-service/downvote-idea user idea)
+
+  ;; check if circle should shrink
+
+  )

@@ -39,6 +39,10 @@ where "user-id"=:user-id and "idea-id"=:idea-id
 insert into users_ideas ("user-id", "idea-id")
 values (:user-id, :idea-id)
 
+-- :name q-downvote :!
+delete from users_ideas
+where "user-id"=:user-id and "idea-id"=:idea-id
+
 -- :name q-get-idea-votes :? :1
 select count(ui."user-id") from ideas as i
 inner join users_ideas as ui

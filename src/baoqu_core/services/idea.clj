@@ -17,3 +17,6 @@
 
 (defn upvote-idea [user idea]
   (idea-repo/upvote-idea (:id user) (:id idea)))
+
+(defn downvote-idea [user idea]
+  (idea-repo/downvote-idea (:id user) (:id idea)))
