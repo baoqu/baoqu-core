@@ -2,17 +2,10 @@
   (:require [baoqu-core.repos.event :as event-repo]))
 
 (defn create [name circle-size approval-factor]
-  {:id 1
-   :name name
-   :circle-size circle-size
-   :approval-factor approval-factor
-   :revolver-user-ids []})
-
-(defn all [filters]) ;; ?
+  (event-repo/create name circle-size approval-factor))
 
 (defn add-user [user event]
+  ;; check if circle with room
+  ;; if true, add to that circle
+  ;; if not, create circle and add to that circle
   )
-
-
-
-;; SN 16207501094267

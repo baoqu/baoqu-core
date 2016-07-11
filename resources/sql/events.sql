@@ -1,6 +1,6 @@
 -- Events SQL definitions
 
--- :name create-events-table
+-- :name q-create-events-table
 -- :command :execute
 -- :result :raw
 create table events (
@@ -10,13 +10,13 @@ create table events (
     approval_factor integer
 )
 
--- :name insert-event :i!
-insert into events (name, email)
-values (:name, :email)
+-- :name q-insert-event :i!
+insert into events (name, circle_size, approval_factor)
+values (:name, :circle-size, :approval-factor)
 
--- :name all :? :*
+-- :name q-all :? :*
 select * from events
 
--- :name get-by-id :? :1
+-- :name q-get-by-id :? :1
 select * from events
 where id=:id

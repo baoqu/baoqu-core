@@ -5,7 +5,8 @@
             [baoqu-core.repos.event :as event-repo]
             [baoqu-core.repos.circle :as circle-repo]
             [baoqu-core.repos.user :as user-repo]
-            [baoqu-core.repos.idea :as idea-repo]))
+            [baoqu-core.repos.idea :as idea-repo]
+            [baoqu-core.database.fixtures :as fixtures]))
 
 (defn create []
   (println ">> Creating database")
@@ -27,7 +28,8 @@
       (.delete)))
 
 (defn load-fixtures []
-  (println ">> Loading database fixtures"))
+  (println ">> Loading database fixtures")
+  (fixtures/load-all))
 
 (defn reload []
   (if (-> db-path
