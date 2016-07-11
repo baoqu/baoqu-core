@@ -3,8 +3,24 @@
 (defn create-event
   "Creates a new event"
   [id name circle-size approval-factor]
-  (atom {:id id}))
+  {:id id
+   :name name
+   :circle-size circle-size
+   :approval-factor approval-factor})
 
+(defn create-user
+  "Creates a new user"
+  [id name]
+  {:id id
+   :name name})
+
+(defn add-user-to-event
+  "Adds a new user to an event"
+  [event user]
+  (let [event-users (:user-ids event #{})
+        user-id (:id user)
+        new-event-users (conj event-users user-id)]
+    (assoc event :user-ids new-event-users)))
 
 ;; {:event {:id 1
 ;;          :name "Whatever"
