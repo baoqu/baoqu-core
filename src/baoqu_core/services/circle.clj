@@ -14,3 +14,6 @@
 
 (defn add-user-to-circle [user circle]
   (circle-repo/add-user-to-circle (:id user) (:id circle)))
+
+(defn get-circle-agreements [circle]
+  (circle-repo/get-circle-agreements (:id circle)))
