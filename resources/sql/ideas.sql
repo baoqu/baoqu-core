@@ -1,6 +1,6 @@
 -- Ideas SQL definitions
 
--- :name create-ideas-table
+-- :name q-create-ideas-table
 -- :command :execute
 -- :result :raw
 create table ideas (
@@ -8,7 +8,7 @@ create table ideas (
     name varchar(255) unique
 )
 
--- :name create-users-ideas-table
+-- :name q-create-users-ideas-table
 -- :command :execute
 -- :result :raw
 create table users_ideas (
@@ -18,3 +18,29 @@ create table users_ideas (
     foreign key ("idea-id") references ideas(id),
     primary key ("user-id", "idea-id")
 )
+
+-- :name q-insert-idea :i!
+insert into ideas (name)
+values (:name)
+
+-- :name q-get-by-id :? :1
+select * from ideas
+where id=:id
+
+-- :name q-get-by-name :? :1
+select * from ideas
+where name=:name
+
+-- :name q-get-vote :1
+select * from users_ideas
+where "user-id"=:user-id and "idea-id"=:idea-id
+
+-- :name q-upvote :i!
+insert into users_ideas ("user-id", "idea-id")
+values (:user-id, :idea-id)
+
+-- :name q-get-idea-votes :? :1
+select count(ui."user-id") from ideas as i
+inner join users_ideas as ui
+on (i.id=ui."idea-id")
+where i.id=:id
