@@ -2,12 +2,13 @@
   (:require [baoqu-core.services.idea :as idea-service]))
 
 (defn upvote [user idea-name]
-  (let [idea (idea-service/find-or-create-idea-by-name idea-name)]
-    (idea-service/upvote-idea user idea))
+  (let [idea (idea-service/find-or-create-idea-by-name idea-name)
+        circle (user-service/get-highest-level-circle user)]
+    (idea-service/upvote-idea user idea)
 
-  ;; check if circle should grow
+    ;; check if circle should grow
 
-  )
+    ))
 
 
 (defn downvote [user idea]
