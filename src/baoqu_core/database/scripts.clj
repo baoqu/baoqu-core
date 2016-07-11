@@ -3,12 +3,16 @@
             [hugsql.core :as hugsql]
             [baoqu-core.database :refer [db-path]]
             [baoqu-core.repos.event :as event-repo]
-            [baoqu-core.repos.circle :as circle-repo]))
+            [baoqu-core.repos.circle :as circle-repo]
+            [baoqu-core.repos.user :as user-repo]
+            [baoqu-core.repos.idea :as idea-repo]))
 
 (defn create []
   (println ">> Creating database")
+  (user-repo/create-table)
   (event-repo/create-table)
-  (circle-repo/create-table))
+  (circle-repo/create-table)
+  (idea-repo/create-table))
 
 (defn safely-create []
   (if-not (-> db-path

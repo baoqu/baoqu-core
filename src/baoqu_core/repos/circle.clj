@@ -5,4 +5,5 @@
 (hugsql/def-db-fns "sql/circles.sql")
 
 (defn create-table []
-  (create-circles-table db))
+  (create-circles-table db)
+  (create-users-circles-table db))
