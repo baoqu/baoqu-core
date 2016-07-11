@@ -1,5 +1,4 @@
-(ns baoqu-core.core
-  (:gen-class))
+(ns baoqu-core.core)
 
 (defn -main
   "I don't do a **whole** lot."
