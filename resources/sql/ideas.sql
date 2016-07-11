@@ -12,9 +12,9 @@ create table ideas (
 -- :command :execute
 -- :result :raw
 create table users_ideas (
-    id_user integer,
-    id_idea integer,
-    foreign key (id_user) references users(id),
-    foreign key (id_idea) references ideas(id),
-    primary key (id_user, id_idea)
+    user_id integer,
+    idea_id integer,
+    foreign key (user_id) references users(id),
+    foreign key (idea_id) references ideas(id),
+    primary key (user_id, idea_id)
 )
