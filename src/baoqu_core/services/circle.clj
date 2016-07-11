@@ -6,7 +6,7 @@
 
 (defn find-or-create-incomplete-circle-for-event [event]
   (let [event-id (:id event)
-        event-circle-size (:circle_size event)
+        event-circle-size (:circle-size event)
         incomplete-event-circles (circle-repo/get-all-incomplete-by-event event-id event-circle-size)]
     (if (empty? incomplete-event-circles)
       (circle-repo/create event-id 1 nil)

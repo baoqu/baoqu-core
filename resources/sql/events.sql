@@ -6,12 +6,12 @@
 create table events (
     id integer primary key autoincrement,
     name varchar(255),
-    circle_size integer,
-    approval_factor integer
+    "circle-size" integer,
+    "approval-factor" integer
 )
 
 -- :name q-insert-event :i!
-insert into events (name, circle_size, approval_factor)
+insert into events (name, "circle-size", "approval-factor")
 values (:name, :circle-size, :approval-factor)
 
 -- :name q-all :? :*

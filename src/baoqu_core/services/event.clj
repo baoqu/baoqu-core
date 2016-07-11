@@ -3,3 +3,6 @@
 
 (defn create [name circle-size approval-factor]
   (event-repo/create name circle-size approval-factor))
+
+(defn get-by-id [id]
+  (event-repo/get-by-id id))

@@ -3,3 +3,6 @@
 
 (defn create [name]
   (user-repo/create name))
+
+(defn get-by-id [id]
+  (user-repo/get-by-id id))
