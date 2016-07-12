@@ -53,7 +53,7 @@ insert into users_circles ("user-id", "circle-id")
 values (:user-id, :circle-id)
 
 -- :name q-get-all-incomplete :?
-select c.id from circles as c
+select * from circles as c
   left join users_circles as cs
          on (c.id=cs."circle-id")
  where c."event-id"=:event-id

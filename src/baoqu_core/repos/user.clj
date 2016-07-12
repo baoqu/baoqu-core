@@ -10,6 +10,10 @@
   [id]
   (q-get-by-id db {:id id}))
 
+(defn get-all
+  []
+  (q-get-all db))
+
 (defn create-table
   []
   (q-create-users-table db))

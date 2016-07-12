@@ -8,3 +8,7 @@
 (defn get-by-id
   [id]
   (user-repo/get-by-id id))
+
+(defn get-all
+  []
+  (user-repo/get-all))

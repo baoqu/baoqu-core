@@ -15,3 +15,6 @@ values (:name)
 -- :name q-get-by-id :? :1
 select * from users
 where id=:id
+
+-- :name q-get-all :?
+select * from users

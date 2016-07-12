@@ -18,16 +18,15 @@
         agreement-factor (:agreement-factor event)
         leveled-agreement-factor (utils/get-leveled-agreement-factor circle-size next-level agreement-factor)
         next-circle (circle-service/find-or-create-incomplete-circle-for-event-and-level event next-level leveled-agreement-factor)]
-    (circle-service/become-child circle next-circle)))
+    (circle-service/become-child circle next-circle)
+    next-circle))
 
 (defn should-grow?
   [circle]
   (let [event (event-service/get-by-id (:event-id circle))
         agreement-factor (:agreement-factor event)
-        leveled-agreement-factor (utils/get-leveled-agreement-factor (:size circle) (:level circle) agreement-factor)
-        agreements (circle-service/get-circle-agreements circle leveled-agreement-factor)]
-    (if-not (empty? agreements)
-      (grow-circle circle))))
+        agreements (circle-service/get-circle-agreements circle agreement-factor)]
+    (not (empty? agreements))))
 
 (defn shrink-circle
   [circle])
@@ -37,8 +36,10 @@
   (let [idea (idea-service/find-or-create-idea-by-name idea-name)
         circle (circle-service/get-highest-level-circle user)]
     (idea-service/upvote-idea user idea)
-    (if (should-grow? circle)
-      (grow-circle circle))))
+    (loop [circle circle]
+      (if (should-grow? circle)
+        (recur (grow-circle circle))
+        circle))))
 
 
 (defn downvote

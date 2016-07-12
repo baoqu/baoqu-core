@@ -10,6 +10,10 @@
   [id]
   (circle-repo/get-by-id id))
 
+(defn get-all
+  []
+  (circle-repo/get-all))
+
 (defn find-or-create-incomplete-circle-for-event-and-level
   [event level agreement-factor]
   (let [event-id (:id event)
