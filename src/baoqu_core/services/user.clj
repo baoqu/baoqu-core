@@ -1,8 +1,10 @@
 (ns baoqu-core.services.user
   (:require [baoqu-core.repos.user :as user-repo]))
 
-(defn create [name]
+(defn create
+  [name]
   (user-repo/create name))
 
-(defn get-by-id [id]
+(defn get-by-id
+  [id]
   (user-repo/get-by-id id))

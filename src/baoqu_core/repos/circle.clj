@@ -6,25 +6,59 @@
 
 (hugsql/def-db-fns "sql/circles.sql")
 
-(defn create-table []
+(defn create-table
+  []
   (q-create-circles-table db)
   (q-create-users-circles-table db))
 
-(defn get-by-id [id]
+(defn get-by-id
+  [id]
   (q-get-by-id db {:id id}))
 
-(defn get-all []
+(defn get-all
+  []
   (q-get-all db))
 
-(defn create [event-id level parent-circle]
-  (let [data {:event-id event-id :level level :parent-circle parent-circle}
+(defn create
+  [event-id level size parent-circle-id]
+  (let [data {:event-id event-id :level level :size size :parent-circle-id parent-circle-id}
         res (q-insert-circle db data)
         new-id (get-id-from-insert res)]
     (get-by-id new-id)))
 
-(defn add-user-to-circle [user-id circle-id]
+(defn persist
+  [circle]
+  (q-persist-circle db circle))
+
+(defn get-circle-users
+  [circle]
+  (let [data {:id (:id circle)}]
+    (q-get-circle-users db data)))
+
+(defn add-user-to-circle
+  [user-id circle-id]
   (let [data {:user-id user-id :circle-id circle-id}]
     (q-add-user-to-repo db data)))
 
-(defn get-all-incomplete-by-event [event-id event-circle-size]
-  (q-get-all-incomplete db {:event-id event-id :circle-size event-circle-size}))
+(defn get-all-incomplete-by-event-and-level
+  [event-id level agreement-factor]
+  (let [data {:event-id event-id :level level :agreement-factor agreement-factor}]
+    (q-get-all-incomplete db data)))
+
+(defn get-circle-for-user-and-level
+  [user-id level]
+  (let [data {:user-id user-id :level level}]
+    (q-get-circle-for-user-and-level db data)))
+
+(defn get-highest-level-circle
+  [user-id]
+  (q-get-highest-level-circle db {:user-id user-id}))
+
+(defn get-circle-ideas
+  [circle-id]
+  (q-get-circle-ideas db {:circle-id circle-id}))
+
+(defn get-circle-agreements
+  [circle-id agreement-factor]
+  (let [data {:agreement-factor agreement-factor :circle-id circle-id}]
+    (q-get-circle-agreements db data)))

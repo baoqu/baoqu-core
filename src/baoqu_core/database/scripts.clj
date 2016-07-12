@@ -8,26 +8,30 @@
             [baoqu-core.repos.idea :as idea-repo]
             [baoqu-core.database.fixtures :as fixtures]))
 
-(defn create []
+(defn create
+  []
   (println ">> Creating database")
   (user-repo/create-table)
   (event-repo/create-table)
   (circle-repo/create-table)
   (idea-repo/create-table))
 
-(defn safely-create []
+(defn safely-create
+  []
   (if-not (-> db-path
               (as-file)
               (.exists))
     (create)))
 
-(defn delete []
+(defn delete
+  []
   (println ">> Deleting database")
   (-> db-path
       (as-file)
       (.delete)))
 
-(defn load-fixtures []
+(defn load-fixtures
+  []
   (println ">> Loading database fixtures")
   (fixtures/load-all))
 
