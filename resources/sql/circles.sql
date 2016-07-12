@@ -35,7 +35,7 @@ update circles set
 "parent-circle-id" = :parent-circle-id
  where id = :id
 
--- :name q-remove-circle :!
+-- :name q-delete-circle :!
 delete from circles
  where id = :id
 

@@ -30,10 +30,10 @@
   [circle]
   (q-persist-circle db circle))
 
-(defn remove
+(defn delete
   [circle]
   (let [data {:id (:id circle)}]
-    (q-remove-circle db data)))
+    (q-delete-circle db data)))
 
 (defn get-circle-users
   [circle]

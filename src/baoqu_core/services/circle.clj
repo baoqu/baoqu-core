@@ -61,7 +61,7 @@
 
   ;; delete parent if necessary
   (if (empty? (circle-repo/get-circle-users parent-circle))
-    (circle-repo/remove parent-circle)))
+    (circle-repo/delete parent-circle)))
 
 (defn add-user-to-circle
   [user circle]

@@ -1,6 +1,16 @@
-(ns baoqu-core.core)
+(ns baoqu-core.core
+  (:require [catacumba.core :as ct]
+            [catacumba.handlers.misc :as misc]))
+
+(defn example-handler
+  [ctx]
+  {:status 200
+   :body "Hello BAOQU"})
+
+(def app
+  (ct/routes [[:any (misc/autoreloader)]
+              [:all "" #'example-handler]]))
 
 (defn -main
-  "I don't do a **whole** lot."
   [& args]
-  (apply println "Hello, World!" args))
+  (ct/run-server app {:port 3030}))
