@@ -42,6 +42,27 @@
        (doseq [user-id x]
          (circle-repo/add-user-to-circle user-id (:id parent-circle)))))
 
+(defn remove-child
+  "The first circle is removed as a child from the second, deleting its users
+  and the parent if no more users are left"
+  [child-circle parent-circle]
+
+  ;; update child
+  (->> nil
+   (assoc child-circle :parent-circle-id)
+   (circle-repo/persist))
+
+  ;; remove users from parent
+  (as-> child-circle x
+   (circle-repo/get-circle-users x)
+   (map :id x)
+   (doseq [user-id x]
+     (circle-repo/remove-user-from-circle user-id (:id parent-circle))))
+
+  ;; delete parent if necessary
+  (if (empty? (circle-repo/get-circle-users parent-circle))
+    (circle-repo/remove parent-circle)))
+
 (defn add-user-to-circle
   [user circle]
   (circle-repo/add-user-to-circle (:id user) (:id circle)))
@@ -57,9 +78,9 @@
 (defn get-highest-agreed-circle
   "Highest circle - 1"
   [user]
-  (let [highest-circle (get-highest-level-circle user)
-        highest-agreed-level (- (:level highest-circle) 1)]
-    (get-circle-for-user-and-level user highest-agreed-level)))
+  (when-let [highest-circle (get-highest-level-circle user)]
+    (->> (- (:level highest-circle) 1)
+         (get-circle-for-user-and-level user))))
 
 (defn get-circle-ideas
   [circle]

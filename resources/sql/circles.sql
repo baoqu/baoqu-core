@@ -35,6 +35,10 @@ update circles set
 "parent-circle-id" = :parent-circle-id
  where id = :id
 
+-- :name q-remove-circle :!
+delete from circles
+ where id = :id
+
 -- :name q-get-all :?
 select * from circles
 
@@ -48,9 +52,14 @@ select * from users_circles as uc
          on (uc."user-id" = u.id)
  where uc."circle-id" = :id
 
--- :name q-add-user-to-repo :!
+-- :name q-add-user-to-circle :!
 insert into users_circles ("user-id", "circle-id")
 values (:user-id, :circle-id)
+
+-- :name q-remove-user-from-circle :!
+delete from users_circles
+ where "user-id" = :user-id
+   and "circle-id" = :circle-id
 
 -- :name q-get-all-incomplete :?
 select * from circles as c

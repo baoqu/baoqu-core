@@ -1,6 +1,7 @@
 (ns baoqu-core.database.fixtures
   (:require [baoqu-core.services.user :as user-service]
             [baoqu-core.services.event :as event-service]
+            [baoqu-core.services.idea :as idea-service]
             [baoqu-core.services.event-manager :as event-manager-service]))
 
 (defn load-all
@@ -19,7 +20,7 @@
         user9 (user-service/create "test9")
         user10 (user-service/create "test10")
 
-        idea "Win the Xth PIWEEK"]
+        idea-name "Win the Xth PIWEEK"]
 
     ;; Add users to event
     (println "++ Adding users")
@@ -36,14 +37,18 @@
 
     ;; Vote ideas
     (println "++ Voting ideas")
-    (event-manager-service/upvote user1 idea)
-    (event-manager-service/upvote user2 idea)
-    (event-manager-service/upvote user3 idea)
-    (event-manager-service/upvote user4 idea)
-    (event-manager-service/upvote user5 idea)
-    (event-manager-service/upvote user6 idea)
-    (event-manager-service/upvote user7 idea)
-    (event-manager-service/upvote user8 idea)
-    (event-manager-service/upvote user9 idea)
+    (event-manager-service/upvote user1 idea-name)
+    (def idea (idea-service/get-by-name idea-name))
+    (event-manager-service/upvote user2 idea-name)
+    (event-manager-service/upvote user3 idea-name)
+    (event-manager-service/upvote user4 idea-name)
+    (event-manager-service/upvote user5 idea-name)
+    (event-manager-service/upvote user6 idea-name)
+    (event-manager-service/upvote user7 idea-name)
+    (event-manager-service/upvote user8 idea-name)
+    (event-manager-service/upvote user9 idea-name)
+
+    ;; Downvote ideas
+    (event-manager-service/downvote user1 idea)
 
     ))

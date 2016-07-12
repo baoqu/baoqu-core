@@ -28,10 +28,23 @@
         agreements (circle-service/get-circle-agreements circle agreement-factor)]
     (not (empty? agreements))))
 
-(defn shrink-circle
-  [circle])
+(defn shrink-circle-from-user
+  [user]
+  (let [hightest-circle (circle-service/get-highest-level-circle user)
+        hightest-agreed-circle (circle-service/get-highest-agreed-circle user)]
+    (circle-service/remove-child hightest-agreed-circle hightest-circle)))
+
+(defn should-shrink?
+  [user]
+  (let [circle (circle-service/get-highest-agreed-circle user)]
+    (if-not (empty? circle)
+      (let [agreements (circle-service/get-circle-agreements circle (:size circle))]
+        (empty? agreements))
+      false)))
 
 (defn upvote
+  "Finds or creates the idea and upvotes it if it wasn't. Can trigger
+  recursive circle growth"
   [user idea-name]
   (let [idea (idea-service/find-or-create-idea-by-name idea-name)
         circle (circle-service/get-highest-level-circle user)]
@@ -41,11 +54,11 @@
         (recur (grow-circle circle))
         circle))))
 
-
 (defn downvote
+  "Downvotes an already upvoted idea. Can trigger recursive circle shrink"
   [user idea]
   (idea-service/downvote-idea user idea)
-  (let [circle (circle-service/get-highest-agreed-circle user)
-        agreements (circle-service/get-circle-agreements circle (:size circle))]
-    (if (empty? agreements)
-      (shrink-circle circle))))
+  (loop [user user]
+    (if (should-shrink? user)
+      (recur (shrink-circle-from-user user))
+      user)))

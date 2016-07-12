@@ -30,6 +30,11 @@
   [circle]
   (q-persist-circle db circle))
 
+(defn remove
+  [circle]
+  (let [data {:id (:id circle)}]
+    (q-remove-circle db data)))
+
 (defn get-circle-users
   [circle]
   (let [data {:id (:id circle)}]
@@ -38,7 +43,12 @@
 (defn add-user-to-circle
   [user-id circle-id]
   (let [data {:user-id user-id :circle-id circle-id}]
-    (q-add-user-to-repo db data)))
+    (q-add-user-to-circle db data)))
+
+(defn remove-user-from-circle
+  [user-id circle-id]
+  (let [data {:user-id user-id :circle-id circle-id}]
+    (q-remove-user-from-circle db data)))
 
 (defn get-all-incomplete-by-event-and-level
   [event-id level agreement-factor]
