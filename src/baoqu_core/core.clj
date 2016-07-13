@@ -22,9 +22,18 @@
           (close! local-c)
           (recur))))))
 
+(defn cors-handler
+  [ctx]
+  (ct/set-headers! ctx {:Access-Control-Allow-Origin "http://localhost:3449"})
+  (ct/set-headers! ctx {:Access-Control-Expose-Headers "*"})
+  (ct/set-headers! ctx {:Access-Control-Allow-Credentials "true"})
+  (ct/delegate))
+
 (def app
-  (ct/routes [[:any "sse" #'sse-handler]
-              [:any "" example-handler]]))
+  (ct/routes [[:prefix "api"
+               [:any cors-handler]
+               [:get "sse" #'sse-handler]
+               [:any "" example-handler]]]))
 
 (defn -main
   [& args]
