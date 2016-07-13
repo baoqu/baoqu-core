@@ -1,15 +1,21 @@
 (ns baoqu-core.core
   (:require [catacumba.core :as ct]
-            [clojure.core.async :refer [go-loop chan mult tap close! <! >! >!!]]))
+            [cheshire.core :refer [generate-string]]
+            [catacumba.handlers.parse :as parse]
+            [clojure.core.async
+             :refer [go-loop chan sliding-buffer mult tap close! <! >! >!!]]))
 
-(def c (chan 10))
+(def c (chan (sliding-buffer 10)))
 (def m (mult c))
 
 (defn example-handler
   [ctx]
-  (>!! c "WHATEVEEEEEEEEER")
-  {:status 200
-   :body "Hello BAOQU"})
+  (let [query-params (:query-params ctx)
+        msg (:msg query-params "NO MESSAGE")
+        type (:type query-params "message")]
+    (>!! c (generate-string {:data msg :type type}))
+    {:status 200
+     :body (str "Message: \"" msg "\"\nType: \"" type "\"")}))
 
 (defn sse-handler
   {:handler-type :catacumba/sse}
@@ -30,10 +36,11 @@
   (ct/delegate))
 
 (def app
-  (ct/routes [[:prefix "api"
-               [:any cors-handler]
-               [:get "sse" #'sse-handler]
-               [:any "" example-handler]]]))
+  (ct/routes [[:any #'cors-handler]
+              [:any (parse/body-params)]
+              [:get "sse" #'sse-handler]
+              [:prefix "api"
+               [:any "" #'example-handler]]]))
 
 (defn -main
   [& args]
