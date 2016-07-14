@@ -30,7 +30,7 @@
           (as-> user x
             (event-manager-service/add-user-to-event x event)
             (json 200 x))
-          (json 200)))
+          (json 200 user)))
       (as-> name x
         (user-service/create x)
         (event-manager-service/add-user-to-event x event)
