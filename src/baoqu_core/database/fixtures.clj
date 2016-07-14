@@ -2,7 +2,9 @@
   (:require [baoqu-core.services.user :as user-service]
             [baoqu-core.services.event :as event-service]
             [baoqu-core.services.idea :as idea-service]
-            [baoqu-core.services.event-manager :as event-manager-service]))
+            [baoqu-core.services.circle :as circle-service]
+            [baoqu-core.services.event-manager :as event-manager-service]
+            [baoqu-core.services.comment-manager :as comment-manager-service]))
 
 (defn load-all
   []
@@ -67,5 +69,9 @@
 
     ;; Downvote ideas
     (event-manager-service/downvote user7 idea6)
+
+    ;; Add comments
+    (def user-7-circle (circle-service/get-highest-level-circle user7))
+    (comment-manager-service/create user7 user-7-circle "Hola bobos!")
 
     ))
