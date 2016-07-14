@@ -1,6 +1,6 @@
 (ns baoqu-core.handlers.circle
   (:require [baoqu-core.http-utils :refer [json]]
-            [baoqu-core.services.comment :as comment-service]
+            [baoqu-core.services.comment-manager :as comment-manager-service]
             [baoqu-core.services.circle :as circle-service]
             [baoqu-core.services.user :as user-service]))
 
@@ -16,6 +16,6 @@
       (json 404))
     (if (and user comment-body)
       (->> comment-body
-           (comment-service/create user circle)
+           (comment-manager-service/create user circle)
            (json 200))
       (json 400 {:message "Invalid data"}))))
