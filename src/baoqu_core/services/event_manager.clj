@@ -2,7 +2,8 @@
   (:require [baoqu-core.services.idea :as idea-service]
             [baoqu-core.services.circle :as circle-service]
             [baoqu-core.services.event :as event-service]
-            [baoqu-core.utils :as utils]))
+            [baoqu-core.utils :as utils]
+            [baoqu-core.async :refer [send-sse]]))
 
 (defn add-user-to-event
   [user event]
@@ -50,6 +51,7 @@
   (let [idea (idea-service/find-or-create-idea-by-name idea-name)
         circle (circle-service/get-highest-level-circle user)]
     (idea-service/upvote-idea user idea)
+    (send-sse {:idea idea :user user} "upvote")
     (loop [circle circle]
       (if (should-grow? circle)
         (recur (grow-circle circle))
@@ -59,6 +61,7 @@
   "Downvotes an already upvoted idea. Can trigger recursive circle shrink"
   [user idea]
   (idea-service/downvote-idea user idea)
+  (send-sse {:idea idea :user user} "downvote")
   (loop [user user]
     (if (should-shrink? user)
       (recur (shrink-circle-from-user user))
@@ -69,9 +72,3 @@
   (let [circles (circle-service/get-all-for-event event)]
     {:event event
      :circles circles}))
-
-
-;; circles (for event)
-;; ideas (for circle)
-;; comments (for circle)
-;; participants (for event?)
