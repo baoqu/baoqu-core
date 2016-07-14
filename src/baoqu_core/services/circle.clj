@@ -94,14 +94,14 @@
 (defn- hydrate-with-user-votes
   [ideas user]
   (let [votes (idea-repo/get-user-votes (:id user))
-        voted-ideas-ids (into [] (map :idea-id votes))]
+        voted-ideas-ids (into #{} (map :idea-id votes))]
     (for [idea ideas]
                (let [voted? (contains? voted-ideas-ids (:id idea))]
                  (assoc idea "voted?" voted?)))))
 
 (defn get-circle-ideas-for-user
   [circle user]
-  (let [ideas (circle-repo/get-circle-ideas (:id circle))]
+  (let [ideas (get-circle-ideas circle)]
     (hydrate-with-user-votes ideas user)))
 
 (defn get-circle-agreements

@@ -22,3 +22,6 @@
 (def u4 (user-service/get-by-id 4))
 (def u5 (user-service/get-by-id 5))
 (def u6 (user-service/get-by-id 6))
+
+(def m (user-service/get-by-id 7))
+(def c (circle-service/get-highest-level-circle m))
