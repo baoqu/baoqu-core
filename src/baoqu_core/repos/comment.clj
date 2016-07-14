@@ -24,7 +24,7 @@
 
 (defn create
   [user-id circle-id body]
-  (let [date (str "NOW")
+  (let [date (str (.getTime (java.util.Date.)))
         data {:user-id user-id :circle-id circle-id :body body :date date}
         res (q-insert-comment db data)
         new-id (get-id-from-insert res)]
