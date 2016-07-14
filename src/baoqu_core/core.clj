@@ -14,6 +14,7 @@
                [:any "" #'example-handler]
                [:prefix "events"
                 [:get ":id" #'event-handlers/show]
+                [:get ":id/circles" #'event-handlers/circles]
                 [:post ":id/users" #'event-handlers/add-user]]
                [:prefix "circles"
                 [:post ":id/comments" #'circle-handlers/add-comment]]]]))

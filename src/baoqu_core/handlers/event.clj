@@ -2,6 +2,7 @@
   (:require [baoqu-core.http-utils :refer [json]]
             [baoqu-core.services.event :as event-service]
             [baoqu-core.services.user :as user-service]
+            [baoqu-core.services.circle :as circle-service]
             [baoqu-core.services.event-manager :as event-manager-service]))
 
 (defn show
@@ -13,6 +14,17 @@
       (json 404)
       (->> event
            (event-manager-service/show-event)
+           (json 200)))))
+
+(defn circles
+  [ctx]
+  (let [id (get-in ctx [:route-params :id])
+        event (event-service/get-by-id id)]
+    (println "[HNDLR] event/circles > id=" id)
+    (if (not event)
+      (json 404)
+      (->> event
+           (circle-service/get-all-for-event)
            (json 200)))))
 
 (defn add-user

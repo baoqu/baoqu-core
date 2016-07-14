@@ -19,9 +19,19 @@
   []
   (q-get-all db))
 
+(defn hydrate-circle-with-inner
+  [circle]
+  (->> {:circle-id (:id circle)}
+       (q-get-inner-circles db)
+       (map :id)
+       (into [])
+       (assoc circle :inner-circles)))
+
 (defn get-all-for-event
   [event-id]
-  (q-get-all-for-event db {:event-id event-id}))
+  (->> {:event-id event-id}
+       (q-get-all-for-event db)
+       (map hydrate-circle-with-inner)))
 
 (defn create
   [event-id level size parent-circle-id]

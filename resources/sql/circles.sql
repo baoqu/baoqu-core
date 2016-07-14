@@ -42,6 +42,10 @@ delete from circles
 -- :name q-get-all :?
 select * from circles
 
+-- :name q-get-inner-circles :?
+select id from circles
+where "parent-circle-id" = :circle-id
+
 -- :name q-get-all-for-event :?
 select * from circles
 where "event-id" = :event-id
