@@ -62,3 +62,15 @@
     (if (should-shrink? user)
       (recur (shrink-circle-from-user user))
       user)))
+
+(defn show-event
+  [event]
+  (let [circles (circle-service/get-all-for-event event)]
+    {:event event
+     :circles circles}))
+
+
+;; circles (for event)
+;; ideas (for circle)
+;; comments (for circle)
+;; participants (for event?)

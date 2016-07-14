@@ -19,6 +19,10 @@
   []
   (q-get-all db))
 
+(defn get-all-for-event
+  [event-id]
+  (q-get-all-for-event db {:event-id event-id}))
+
 (defn create
   [event-id level size parent-circle-id]
   (let [data {:event-id event-id :level level :size size :parent-circle-id parent-circle-id}
