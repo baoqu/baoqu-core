@@ -18,7 +18,9 @@
                 [:get ":id/circles" #'event-handlers/circles]
                 [:post ":id/users" #'event-handlers/add-user]]
                [:prefix "circles"
-                [:post ":id/comments" #'circle-handlers/add-comment]]]]))
+                [:get ":id/comments" #'circle-handlers/comments]
+                [:post ":id/comments" #'circle-handlers/add-comment]
+                [:get ":id/ideas" #'circle-handlers/ideas]]]]))
 
 (defn -main
   [& args]
