@@ -6,6 +6,7 @@
             [baoqu-core.repos.circle :as circle-repo]
             [baoqu-core.repos.user :as user-repo]
             [baoqu-core.repos.idea :as idea-repo]
+            [baoqu-core.repos.comment :as comment-repo]
             [baoqu-core.database.fixtures :as fixtures]))
 
 (defn create
@@ -14,7 +15,8 @@
   (user-repo/create-table)
   (event-repo/create-table)
   (circle-repo/create-table)
-  (idea-repo/create-table))
+  (idea-repo/create-table)
+  (comment-repo/create-table))
 
 (defn safely-create
   []

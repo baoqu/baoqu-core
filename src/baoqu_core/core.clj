@@ -3,7 +3,8 @@
             [catacumba.handlers.parse :as parse]
             [baoqu-core.handlers.root :refer [sse-handler example-handler]]
             [baoqu-core.handlers.middleware :refer [cors-handler]]
-            [baoqu-core.handlers.event :as event-handlers]))
+            [baoqu-core.handlers.event :as event-handlers]
+            [baoqu-core.handlers.circle :as circle-handlers]))
 
 (def app
   (ct/routes [[:any #'cors-handler]
@@ -11,8 +12,11 @@
               [:get "sse" #'sse-handler]
               [:prefix "api"
                [:any "" #'example-handler]
-               [:get "events/:id" #'event-handlers/show]
-               [:post "events/:id/users" #'event-handlers/add-user]]]))
+               [:prefix "events"
+                [:get ":id" #'event-handlers/show]
+                [:post ":id/users" #'event-handlers/add-user]]
+               [:prefix "circles"
+                [:post ":id/comments" #'circle-handlers/add-comment]]]]))
 
 (defn -main
   [& args]
