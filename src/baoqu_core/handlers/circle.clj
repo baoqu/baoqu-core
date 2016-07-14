@@ -4,6 +4,12 @@
             [baoqu-core.services.circle :as circle-service]
             [baoqu-core.services.user :as user-service]))
 
+(defn user-circle
+  [ctx]
+  (let [id (get-in ctx [:route-params :id])
+        user (user-service/get-by-id id)]
+    (json 200 (circle-service/get-highest-level-circle user))))
+
 (defn add-comment
   [ctx]
   (let [id (get-in ctx [:route-params :id])

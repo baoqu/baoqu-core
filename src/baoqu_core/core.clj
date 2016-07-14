@@ -12,6 +12,7 @@
               [:get "sse" #'sse-handler]
               [:prefix "api"
                [:any "" #'example-handler]
+               [:get "user-circle/:id" #'circle-handlers/user-circle]
                [:prefix "events"
                 [:get ":id" #'event-handlers/show]
                 [:get ":id/circles" #'event-handlers/circles]
