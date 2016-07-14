@@ -12,9 +12,7 @@
     (println "[HNDLR] event/show > id=" id)
     (if (not event)
       (json 404)
-      (->> event
-           (event-manager-service/show-event)
-           (json 200)))))
+      (json 200 event))))
 
 (defn circles
   [ctx]

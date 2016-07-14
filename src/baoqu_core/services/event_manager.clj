@@ -64,7 +64,7 @@
       (recur (shrink-circle-from-user user))
       user)))
 
-(defn show-event
+(defn show-event-detail
   [event]
   (let [circles (circle-service/get-all-for-event event)]
     {:event event
