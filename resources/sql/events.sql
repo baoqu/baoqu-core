@@ -20,3 +20,11 @@ select * from events
 -- :name q-get-by-id :? :1
 select * from events
 where id=:id
+
+-- :name q-get-events-for-user :?
+select e.* from events as e
+inner join circles as c
+on e.id = c."event-id"
+inner join users_circles as uc
+on c.id = uc."circle-id"
+where uc."user-id" = :user-id

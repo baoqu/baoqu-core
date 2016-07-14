@@ -16,5 +16,9 @@ values (:name)
 select * from users
 where id=:id
 
+-- :name q-get-by-name :? :1
+select * from users
+where name=:name
+
 -- :name q-get-all :?
 select * from users

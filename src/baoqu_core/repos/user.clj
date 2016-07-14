@@ -10,6 +10,10 @@
   [id]
   (q-get-by-id db {:id id}))
 
+(defn get-by-name
+  [name]
+  (q-get-by-name db {:name name}))
+
 (defn get-all
   []
   (q-get-all db))

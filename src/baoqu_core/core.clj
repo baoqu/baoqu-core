@@ -11,8 +11,10 @@
               [:get "sse" #'sse-handler]
               [:prefix "api"
                [:any "" #'example-handler]
-               [:get "event/:id" #'event-handlers/show]]]))
+               [:get "events/:id" #'event-handlers/show]
+               [:post "events/:id/users" #'event-handlers/add-user]]]))
 
 (defn -main
   [& args]
+  (println "Starting Baoqu application on port 3030")
   (ct/run-server app {:port 3030}))

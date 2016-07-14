@@ -9,6 +9,10 @@
   [id]
   (user-repo/get-by-id id))
 
+(defn get-by-name
+  [id]
+  (user-repo/get-by-name id))
+
 (defn get-all
   []
   (user-repo/get-all))

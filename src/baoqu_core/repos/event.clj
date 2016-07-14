@@ -29,3 +29,7 @@
 
 (defn delete-by-id
   [id])
+
+(defn get-events-for-user
+  [user-id]
+  (q-get-events-for-user db {:user-id user-id}))
