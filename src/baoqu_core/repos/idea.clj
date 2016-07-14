@@ -51,3 +51,7 @@
   (if (is-upvoted? user-id idea-id)
     (q-downvote db {:user-id user-id :idea-id idea-id}))
   (get-by-id idea-id))
+
+(defn get-user-votes
+  [user-id]
+  (q-get-user-votes db {:user-id user-id}))

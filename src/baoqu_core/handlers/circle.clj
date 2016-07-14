@@ -14,8 +14,10 @@
 (defn ideas
   [ctx]
   (let [id (get-in ctx [:route-params :id])
-        circle (circle-service/get-by-id id)]
-    (json 200 (circle-service/get-circle-ideas circle))))
+        circle (circle-service/get-by-id id)
+        user-id (get-in ctx [:query-params :user-id])
+        user (user-service/get-by-id user-id)]
+    (json 200 (circle-service/get-circle-ideas-for-user circle user))))
 
 (defn comments
   [ctx]

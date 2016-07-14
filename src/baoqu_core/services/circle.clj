@@ -1,5 +1,6 @@
 (ns baoqu-core.services.circle
   (:require [baoqu-core.repos.circle :as circle-repo]
+            [baoqu-core.repos.idea :as idea-repo]
             [baoqu-core.utils :as utils]))
 
 (defn create
@@ -89,6 +90,19 @@
 (defn get-circle-ideas
   [circle]
   (circle-repo/get-circle-ideas (:id circle)))
+
+(defn- hydrate-with-user-votes
+  [ideas user]
+  (let [votes (idea-repo/get-user-votes (:id user))
+        voted-ideas-ids (into [] (map :idea-id votes))]
+    (for [idea ideas]
+               (let [voted? (contains? voted-ideas-ids (:id idea))]
+                 (assoc idea "voted?" voted?)))))
+
+(defn get-circle-ideas-for-user
+  [circle user]
+  (let [ideas (circle-repo/get-circle-ideas (:id circle))]
+    (hydrate-with-user-votes ideas user)))
 
 (defn get-circle-agreements
   [circle agreement-factor]

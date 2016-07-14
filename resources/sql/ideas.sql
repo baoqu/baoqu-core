@@ -48,3 +48,7 @@ select count(ui."user-id") from ideas as i
 inner join users_ideas as ui
 on (i.id=ui."idea-id")
 where i.id=:id
+
+-- :name q-get-user-votes
+select * from users_ideas
+ where "user-id" = :user-id
