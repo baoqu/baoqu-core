@@ -41,7 +41,7 @@ inner join users as u
  where "circle-id" = :circle-id
 
 -- :name q-get-by-id :? :1
-select c.*, u.name from comments
+select c.*, u.name from comments as c
 inner join users as u
         on u.id = c."user-id"
- where id = :id
+ where c.id = :id

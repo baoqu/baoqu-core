@@ -4,6 +4,7 @@
             [baoqu-core.handlers.root :refer [sse-handler example-handler]]
             [baoqu-core.handlers.middleware :refer [cors-handler]]
             [baoqu-core.handlers.event :as event-handlers]
+            [baoqu-core.handlers.idea :as idea-handlers]
             [baoqu-core.handlers.circle :as circle-handlers]))
 
 (def app
@@ -20,7 +21,10 @@
                [:prefix "circles"
                 [:get ":id/comments" #'circle-handlers/comments]
                 [:post ":id/comments" #'circle-handlers/add-comment]
-                [:get ":id/ideas" #'circle-handlers/ideas]]]]))
+                [:get ":id/ideas" #'circle-handlers/ideas]]
+               [:prefix "ideas"
+                [:post "downvote" #'idea-handlers/downvote]
+                [:post "upvote" #'idea-handlers/upvote]]]]))
 
 (defn -main
   [& args]
