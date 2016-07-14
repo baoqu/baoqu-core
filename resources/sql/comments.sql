@@ -30,12 +30,18 @@ delete from comments
  where id = :id
 
 -- :name q-get-all :?
-select * from comments
+select c.*, u.name from comments as c
+inner join users as u
+        on u.id = c."user-id"
 
 -- :name q-get-all-for-circle :?
-select * from comments
-where "circle-id" = :circle-id
+select c.*, u.name from comments as c
+inner join users as u
+        on u.id = c."user-id"
+ where "circle-id" = :circle-id
 
 -- :name q-get-by-id :? :1
-select * from comments
+select c.*, u.name from comments
+inner join users as u
+        on u.id = c."user-id"
  where id = :id
