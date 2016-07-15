@@ -21,6 +21,7 @@
         leveled-agreement-factor (utils/get-leveled-agreement-factor circle-size next-level agreement-factor)
         next-circle (circle-service/find-or-create-incomplete-circle-for-event-and-level event next-level leveled-agreement-factor)]
     (circle-service/become-child circle next-circle)
+    (send-sse {} "grow")
     next-circle))
 
 (defn should-grow?
@@ -34,7 +35,8 @@
   [user]
   (let [hightest-circle (circle-service/get-highest-level-circle user)
         hightest-agreed-circle (circle-service/get-highest-agreed-circle user)]
-    (circle-service/remove-child hightest-agreed-circle hightest-circle)))
+    (circle-service/remove-child hightest-agreed-circle hightest-circle)
+    (send-sse {} "shrink")))
 
 (defn should-shrink?
   [user]
