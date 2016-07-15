@@ -47,8 +47,11 @@ select id from circles
 where "parent-circle-id" = :circle-id
 
 -- :name q-get-all-for-event :?
-select * from circles
-where "event-id" = :event-id
+select c.*, count(uc."user-id") as "users" from circles as c
+ inner join users_circles as uc
+         on c.id = uc."circle-id"
+where c."event-id" = :event-id
+group by c.id
 
 -- :name q-get-by-id :? :1
 select * from circles
