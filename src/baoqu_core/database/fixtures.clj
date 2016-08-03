@@ -8,22 +8,22 @@
 
 (defn load-all
   []
-  (let [event (event-service/create "Ciclismo en la Guindalera, una discusiÃ³n abierta" 3 3)
+  (let [event (event-service/create "Ciclismo en la Guindalera, una discusión abierta" 3 3)
 
         ;; Users
         user1 (user-service/create "Ramira")
         user2 (user-service/create "Maria")
         user3 (user-service/create "Yamilo")
         user4 (user-service/create "Mario")
-        user5 (user-service/create "PÃ©rez-Reverte")
+        user5 (user-service/create "Pérez-Reverte")
         user6 (user-service/create "Yisus")
         user7 (user-service/create "Magikarp")
 
-        idea-name1 "En la dÃ©cima PIWEEK lo arreglamos todo"
-        idea-name2 "Nos hacen falta mÃ¡s carriles bici"
-        idea-name3 "Las bicis son para hippies, Â¡cÃ³mo se nota que no trabajais!"
-        idea-name4 "CÃ³mo conectar con el centro: bulevar en Juan Bravo"
-        idea-name5 "Sin presupuestos es difÃ­cil hacer nada"
+        idea-name1 "En la décima PIWEEK lo arreglamos todo"
+        idea-name2 "Nos hacen falta más carriles bici"
+        idea-name3 "Las bicis son para hippies, ¡cómo se nota que no trabajais!"
+        idea-name4 "Cómo conectar con el centro: bulevar en Juan Bravo"
+        idea-name5 "Sin presupuestos es difícil hacer nada"
         idea-name6 "Hay que arreglar los baches, son un peligro"]
 
     ;; Add users to event
