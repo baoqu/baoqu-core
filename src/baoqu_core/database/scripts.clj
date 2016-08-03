@@ -1,7 +1,7 @@
 (ns baoqu-core.database.scripts
   (:require [clojure.java.io :refer [as-file]]
             [hugsql.core :as hugsql]
-            [baoqu-core.database :refer [db-path]]
+            [baoqu-core.configuration :refer [config]]
             [baoqu-core.repos.event :as event-repo]
             [baoqu-core.repos.circle :as circle-repo]
             [baoqu-core.repos.user :as user-repo]
@@ -20,7 +20,7 @@
 
 (defn safely-create
   []
-  (if-not (-> db-path
+  (if-not (-> (:db-path config)
               (as-file)
               (.exists))
     (create)))
@@ -28,7 +28,7 @@
 (defn delete
   []
   (println ">> Deleting database")
-  (-> db-path
+  (-> (:db-path config)
       (as-file)
       (.delete)))
 
@@ -38,7 +38,7 @@
   (fixtures/load-all))
 
 (defn reload []
-  (if (-> db-path
+  (if (-> (:db-path config)
           (as-file)
           (.exists))
     (delete))

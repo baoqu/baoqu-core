@@ -1,6 +1,7 @@
 (ns baoqu-core.core
   (:require [catacumba.core :as ct]
             [catacumba.handlers.parse :as parse]
+            [baoqu-core.configuration :refer [config]]
             [baoqu-core.handlers.root :refer [sse-handler example-handler]]
             [baoqu-core.handlers.middleware :refer [cors-handler]]
             [baoqu-core.handlers.event :as event-handlers]
@@ -28,5 +29,6 @@
 
 (defn -main
   [& args]
-  (println "Starting Baoqu application on port 3030")
-  (ct/run-server app {:port 3030}))
+  (let [server-port (:server-port config)]
+    (println "Starting Baoqu application on port" server-port)
+    (ct/run-server app {:port server-port})))
