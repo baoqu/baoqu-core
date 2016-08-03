@@ -37,7 +37,8 @@
   (let [hightest-circle (circle-service/get-highest-level-circle user)
         hightest-agreed-circle (circle-service/get-highest-agreed-circle user)]
     (circle-service/remove-child hightest-agreed-circle hightest-circle)
-    (send-sse {} "shrink")))
+    (send-sse {} "shrink")
+    user))
 
 (defn should-shrink?
   [user]
