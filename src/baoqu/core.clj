@@ -1,12 +1,12 @@
-(ns baoqu-core.core
+(ns baoqu.core
   (:require [catacumba.core :as ct]
             [catacumba.handlers.parse :as parse]
-            [baoqu-core.configuration :refer [config]]
-            [baoqu-core.handlers.root :refer [sse-handler example-handler]]
-            [baoqu-core.handlers.middleware :refer [cors-handler]]
-            [baoqu-core.handlers.event :as event-handlers]
-            [baoqu-core.handlers.idea :as idea-handlers]
-            [baoqu-core.handlers.circle :as circle-handlers]))
+            [baoqu.configuration :refer [config]]
+            [baoqu.handlers.root :refer [sse-handler example-handler]]
+            [baoqu.handlers.middleware :refer [cors-handler]]
+            [baoqu.handlers.event :as event-handlers]
+            [baoqu.handlers.idea :as idea-handlers]
+            [baoqu.handlers.circle :as circle-handlers]))
 
 (def app
   (ct/routes [[:any #'cors-handler]

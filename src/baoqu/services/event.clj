@@ -1,5 +1,5 @@
-(ns baoqu-core.services.event
-  (:require [baoqu-core.repos.event :as event-repo]))
+(ns baoqu.services.event
+  (:require [baoqu.repos.event :as event-repo]))
 
 (defn create
   [name circle-size agreement-factor]

@@ -1,9 +1,9 @@
-(ns baoqu-core.handlers.circle
-  (:require [baoqu-core.http-utils :refer [json]]
-            [baoqu-core.services.comment-manager :as comment-manager-service]
-            [baoqu-core.services.circle :as circle-service]
-            [baoqu-core.services.comment :as comment-service]
-            [baoqu-core.services.user :as user-service]))
+(ns baoqu.handlers.circle
+  (:require [baoqu.http-utils :refer [json]]
+            [baoqu.services.comment-manager :as comment-manager-service]
+            [baoqu.services.circle :as circle-service]
+            [baoqu.services.comment :as comment-service]
+            [baoqu.services.user :as user-service]))
 
 (defn user-circle
   [ctx]

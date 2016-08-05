@@ -1,8 +1,8 @@
-(ns baoqu-core.handlers.root
+(ns baoqu.handlers.root
   (:require [cheshire.core :refer [generate-string]]
             [clojure.core.async
              :refer [go-loop chan tap close! <! >! >!!]]
-            [baoqu-core.async :refer [main-chan main-mult]]))
+            [baoqu.async :refer [main-chan main-mult]]))
 
 (defn example-handler
   [ctx]

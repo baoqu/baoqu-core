@@ -1,6 +1,6 @@
-(ns baoqu-core.repos.idea
+(ns baoqu.repos.idea
   (:require [hugsql.core :as hugsql]
-            [baoqu-core.database :refer [db]]))
+            [baoqu.database :refer [db]]))
 
 (def ^:const get-id-from-insert (keyword "last_insert_rowid()"))
 

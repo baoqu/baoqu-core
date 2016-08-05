@@ -1,5 +1,5 @@
-(ns baoqu-core.services.user
-  (:require [baoqu-core.repos.user :as user-repo]))
+(ns baoqu.services.user
+  (:require [baoqu.repos.user :as user-repo]))
 
 (defn create
   [name]

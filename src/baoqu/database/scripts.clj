@@ -1,13 +1,13 @@
-(ns baoqu-core.database.scripts
+(ns baoqu.database.scripts
   (:require [clojure.java.io :refer [as-file]]
             [hugsql.core :as hugsql]
-            [baoqu-core.configuration :refer [config]]
-            [baoqu-core.repos.event :as event-repo]
-            [baoqu-core.repos.circle :as circle-repo]
-            [baoqu-core.repos.user :as user-repo]
-            [baoqu-core.repos.idea :as idea-repo]
-            [baoqu-core.repos.comment :as comment-repo]
-            [baoqu-core.database.fixtures :as fixtures]))
+            [baoqu.configuration :refer [config]]
+            [baoqu.repos.event :as event-repo]
+            [baoqu.repos.circle :as circle-repo]
+            [baoqu.repos.user :as user-repo]
+            [baoqu.repos.idea :as idea-repo]
+            [baoqu.repos.comment :as comment-repo]
+            [baoqu.database.fixtures :as fixtures]))
 
 (defn create
   []

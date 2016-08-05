@@ -1,5 +1,5 @@
-(ns baoqu-core.services.idea
-  (:require [baoqu-core.repos.idea :as idea-repo]))
+(ns baoqu.services.idea
+  (:require [baoqu.repos.idea :as idea-repo]))
 
 (defn get-by-id
   [id]

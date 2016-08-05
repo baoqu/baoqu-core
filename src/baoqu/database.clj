@@ -1,5 +1,5 @@
-(ns baoqu-core.database
-  (:require [baoqu-core.configuration :refer [config]]))
+(ns baoqu.database
+  (:require [baoqu.configuration :refer [config]]))
 
 (def db {:classname "org.sqlite.JDBC"
          :subprotocol "sqlite"

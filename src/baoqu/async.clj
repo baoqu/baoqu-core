@@ -1,4 +1,4 @@
-(ns baoqu-core.async
+(ns baoqu.async
   (:require [cheshire.core :refer [generate-string]]
             [clojure.core.async
              :refer [chan sliding-buffer mult >!!]]))

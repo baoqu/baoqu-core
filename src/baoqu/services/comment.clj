@@ -1,5 +1,5 @@
-(ns baoqu-core.services.comment
-  (:require [baoqu-core.repos.comment :as comment-repo]))
+(ns baoqu.services.comment
+  (:require [baoqu.repos.comment :as comment-repo]))
 
 (defn create
   [user circle body]

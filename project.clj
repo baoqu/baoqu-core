@@ -11,10 +11,10 @@
                  [org.slf4j/slf4j-simple "1.7.21"]]
   :plugins [[lein-cucumber "1.0.2"]
             [lein-codox "0.9.5"]]
-  :aliases {"create-db" ["run" "-m" "baoqu-core.database.scripts/safely-create"]
-            "remove-db" ["run" "-m" "baoqu-core.database.scripts/delete"]
-            "reload-db" ["run" "-m" "baoqu-core.database.scripts/reload"]
-            "srv"       ["run" "-m" "baoqu-core.core/-main"]}
+  :aliases {"create-db" ["run" "-m" "baoqu.database.scripts/safely-create"]
+            "remove-db" ["run" "-m" "baoqu.database.scripts/delete"]
+            "reload-db" ["run" "-m" "baoqu.database.scripts/reload"]
+            "srv"       ["run" "-m" "baoqu.core/-main"]}
   :codox {:source-paths ["src"]
           :language :clojure
           :metadata {:doc/format :markdown}})

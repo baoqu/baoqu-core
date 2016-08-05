@@ -1,4 +1,4 @@
-(ns baoqu-core.configuration)
+(ns baoqu.configuration)
 
 (defn env-or
   [env default]

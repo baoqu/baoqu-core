@@ -1,4 +1,4 @@
-(ns baoqu-core.utils)
+(ns baoqu.utils)
 
 (defn get-leveled-agreement-factor
   [circle-size level agreement-factor]

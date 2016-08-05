@@ -1,9 +1,9 @@
-(ns baoqu-core.handlers.event
-  (:require [baoqu-core.http-utils :refer [json]]
-            [baoqu-core.services.event :as event-service]
-            [baoqu-core.services.user :as user-service]
-            [baoqu-core.services.circle :as circle-service]
-            [baoqu-core.services.event-manager :as event-manager-service]))
+(ns baoqu.handlers.event
+  (:require [baoqu.http-utils :refer [json]]
+            [baoqu.services.event :as event-service]
+            [baoqu.services.user :as user-service]
+            [baoqu.services.circle :as circle-service]
+            [baoqu.services.event-manager :as event-manager-service]))
 
 (defn show
   [ctx]

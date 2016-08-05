@@ -1,10 +1,10 @@
-(ns baoqu-core.database.fixtures
-  (:require [baoqu-core.services.user :as user-service]
-            [baoqu-core.services.event :as event-service]
-            [baoqu-core.services.idea :as idea-service]
-            [baoqu-core.services.circle :as circle-service]
-            [baoqu-core.services.event-manager :as event-manager-service]
-            [baoqu-core.services.comment-manager :as comment-manager-service]))
+(ns baoqu.database.fixtures
+  (:require [baoqu.services.user :as user-service]
+            [baoqu.services.event :as event-service]
+            [baoqu.services.idea :as idea-service]
+            [baoqu.services.circle :as circle-service]
+            [baoqu.services.event-manager :as event-manager-service]
+            [baoqu.services.comment-manager :as comment-manager-service]))
 
 (defn load-all
   []

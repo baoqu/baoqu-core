@@ -1,4 +1,4 @@
-(ns baoqu-core.handlers.middleware
+(ns baoqu.handlers.middleware
   (:require [catacumba.core :as ct]))
 
 (defn cors-handler

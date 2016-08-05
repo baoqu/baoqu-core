@@ -1,9 +1,9 @@
-(ns baoqu-core.services.event-manager
-  (:require [baoqu-core.services.idea :as idea-service]
-            [baoqu-core.services.circle :as circle-service]
-            [baoqu-core.services.event :as event-service]
-            [baoqu-core.utils :as utils]
-            [baoqu-core.async :refer [send-sse]]))
+(ns baoqu.services.event-manager
+  (:require [baoqu.services.idea :as idea-service]
+            [baoqu.services.circle :as circle-service]
+            [baoqu.services.event :as event-service]
+            [baoqu.utils :as utils]
+            [baoqu.async :refer [send-sse]]))
 
 (defn add-user-to-event
   [user event]

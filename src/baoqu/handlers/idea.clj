@@ -1,8 +1,8 @@
-(ns baoqu-core.handlers.idea
-  (:require [baoqu-core.services.user :as user-service]
-            [baoqu-core.services.idea :as idea-service]
-            [baoqu-core.services.event-manager :as event-manager-service]
-            [baoqu-core.http-utils :refer [json]]))
+(ns baoqu.handlers.idea
+  (:require [baoqu.services.user :as user-service]
+            [baoqu.services.idea :as idea-service]
+            [baoqu.services.event-manager :as event-manager-service]
+            [baoqu.http-utils :refer [json]]))
 
 (defn upvote
   [ctx]

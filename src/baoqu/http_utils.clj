@@ -1,4 +1,4 @@
-(ns baoqu-core.http-utils
+(ns baoqu.http-utils
   (:require [cheshire.core :refer [generate-string]]))
 
 (def default-headers {"Content-Type" "application/json"})

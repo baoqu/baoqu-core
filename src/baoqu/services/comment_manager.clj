@@ -1,6 +1,6 @@
-(ns baoqu-core.services.comment-manager
-  (:require [baoqu-core.services.comment :as comment-service]
-            [baoqu-core.async :refer [send-sse]]))
+(ns baoqu.services.comment-manager
+  (:require [baoqu.services.comment :as comment-service]
+            [baoqu.async :refer [send-sse]]))
 
 (defn create
   [user circle body]

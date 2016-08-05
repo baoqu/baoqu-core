@@ -1,7 +1,7 @@
-(ns baoqu-core.services.circle
-  (:require [baoqu-core.repos.circle :as circle-repo]
-            [baoqu-core.repos.idea :as idea-repo]
-            [baoqu-core.utils :as utils]))
+(ns baoqu.services.circle
+  (:require [baoqu.repos.circle :as circle-repo]
+            [baoqu.repos.idea :as idea-repo]
+            [baoqu.utils :as utils]))
 
 (defn create
   [event-id level parent-circle]
