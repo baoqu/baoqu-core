@@ -10,7 +10,7 @@
   (let [agreement-factor (:agreement-factor event)
         incomplete-circle (circle-service/find-or-create-incomplete-circle-for-event-and-level event 1 agreement-factor)]
     (circle-service/add-user-to-circle user incomplete-circle)
-    (send-sse {} "grow") ;; CHANGE TO new-user or something
+    (send-sse {} "new-user")
     user))
 
 (defn grow-circle
