@@ -4,7 +4,7 @@
             [baoqu.services.event-manager :as event-manager-service]
             [baoqu.http-utils :refer [json]]))
 
-(defn upvote
+ (defn upvote
   [ctx]
   (let [user-id (get-in ctx [:data :user-id])
         user (user-service/get-by-id user-id)
