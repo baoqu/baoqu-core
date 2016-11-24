@@ -21,5 +21,9 @@
     (go-loop []
       (when-let [msg (<! local-c)]
         (if-not (>! out msg)
-          (close! local-c)
+          (do
+            (println "=================")
+            (println "CLOSING A CHANNEL")
+            (println "=================")
+            (close! local-c))
           (recur))))))
