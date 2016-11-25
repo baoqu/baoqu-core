@@ -6,6 +6,10 @@
             [baoqu.services.event-manager :as event-manager-service]
             [baoqu.services.comment-manager :as comment-manager-service]))
 
+(defn load-initial-status
+  []
+  (event-service/create "Probando Baoqu!" 3 3))
+
 (defn load-all
   []
   (let [event (event-service/create "Ciclismo en la Guindalera, una discusión abierta" 3 3)

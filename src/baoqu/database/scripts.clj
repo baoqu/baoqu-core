@@ -35,7 +35,7 @@
 (defn load-fixtures
   []
   (println ">> Loading database fixtures")
-  (fixtures/load-all))
+  (fixtures/load-initial-status))
 
 (defn reload []
   (if (-> (:db-path config)
