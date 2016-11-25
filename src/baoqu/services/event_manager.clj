@@ -58,7 +58,7 @@
   (let [idea (idea-service/find-or-create-idea-by-name idea-name)
         circle (circle-service/get-highest-level-circle user)]
     (idea-service/upvote-idea user idea)
-    (send-sse {:idea idea :user user} "upvote")
+    (send-sse {:idea idea :user user :circle-id (:id circle)} "upvote")
     (loop [circle circle]
       (if (should-grow? circle)
         (recur (grow-circle circle))
@@ -67,12 +67,13 @@
 (defn downvote
   "Downvotes an already upvoted idea. Can trigger recursive circle shrink"
   [user idea]
-  (idea-service/downvote-idea user idea)
-  (send-sse {:idea idea :user user} "downvote")
-  (loop [user user]
-    (if (should-shrink? user)
-      (recur (shrink-circle-from-user user))
-      user)))
+  (let [circle (circle-service/get-highest-level-circle user)]
+    (idea-service/downvote-idea user idea)
+    (send-sse {:idea idea :user user :circle-id (:id circle)} "downvote")
+    (loop [user user]
+      (if (should-shrink? user)
+        (recur (shrink-circle-from-user user))
+        user))))
 
 (defn show-event-detail
   [event]
