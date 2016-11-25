@@ -4,6 +4,8 @@
 
 (defn create
   [user circle body]
-  (let [new-comment (comment-service/create user circle body)]
-    (send-sse new-comment "comment")
+  (let [new-comment (comment-service/create user circle body)
+        circle-id (:id circle)
+        payload (merge new-comment {:circle-id circle-id})]
+    (send-sse payload "comment")
     new-comment))
