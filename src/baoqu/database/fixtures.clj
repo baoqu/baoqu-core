@@ -8,7 +8,7 @@
 
 (defn load-initial-status
   []
-  (event-service/create "Probando Baoqu!" 3 3))
+  (event-service/create "Probando Baoqu" 3 3))
 
 (defn load-all
   []
