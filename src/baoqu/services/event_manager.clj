@@ -24,7 +24,7 @@
         next-circle (circle-service/find-or-create-incomplete-circle-for-event-and-level event next-level leveled-agreement-factor)]
     (circle-service/become-child circle next-circle)
     (send-sse {} "grow")
-    (send-sse {"circle-id" circle-id "title" "Tu círculo ha subido de nivel" "description" "Habéis llegado a los acuerdos necesarios para superar el factor de acuerdo."} "notification")
+    (send-sse {"circle-id" circle-id "title" "Habéis alcanzado un acuerdo" "description" "Ahora os vamos a juntar con más gente que ha conseguido también un acuerdo, a ver si sois capaces de llegar a un acuerdo. ¿De acuerdo?"} "notification")
     next-circle))
 
 (defn should-grow?
@@ -39,7 +39,7 @@
   (let [hightest-circle (circle-service/get-highest-level-circle user)
         hightest-agreed-circle (circle-service/get-highest-agreed-circle user)]
     (circle-service/remove-child hightest-agreed-circle hightest-circle)
-    (send-sse {"circle-id" (:id hightest-circle) "title" "Tu círculo ha bajado de nivel" "description" "Ninguna idea tiene apoyos suficientes para superar el factor de acuerdo."} "notification")
+    (send-sse {"circle-id" (:id hightest-circle) "title" "Parece que ya no estáis de acuerdo" "description" "Os vamos a separar para que intentéis encontrar de nuevo aquella idea que compartís."} "notification")
     (send-sse {} "shrink")
     user))
 
