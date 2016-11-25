@@ -39,7 +39,9 @@
   (let [hightest-circle (circle-service/get-highest-level-circle user)
         hightest-agreed-circle (circle-service/get-highest-agreed-circle user)]
     (circle-service/remove-child hightest-agreed-circle hightest-circle)
-    (send-sse {"circle-id" (:id hightest-circle) "title" "Parece que ya no estáis de acuerdo" "description" "Os vamos a separar para que intentéis encontrar de nuevo aquella idea que compartís."} "notification")
+    ;; (send-sse {"circle-id" (:id hightest-circle) "title" "Parece que ya no estáis de acuerdo" "description" "Os vamos a separar para que intentéis encontrar de nuevo aquella idea que compartís."} "notification")
+    ;; There is no way to distinguish if I'm shrinking or just observing how a brother shrinks
+    ;; TODO: include a path in the client's state
     (send-sse {} "shrink")
     user))
 
