@@ -12,4 +12,6 @@
   (println "    - Data:" data)
   (println "    - Type:" type)
   (let [message (generate-string {:data data :type type})]
-    (>!! main-chan message)))
+    (println "++++ PREVIOUS TO SEND TO main-chan")
+    (>!! main-chan message)
+    (println "++++ AFTER SENDING TO main-chan")))
