@@ -5,6 +5,7 @@
             [baoqu.handlers.root :refer [sse-handler example-handler]]
             [baoqu.handlers.middleware :refer [cors-handler]]
             [baoqu.handlers.event :as event-handlers]
+            [baoqu.handlers.user :as user-handlers]
             [baoqu.handlers.idea :as idea-handlers]
             [baoqu.handlers.circle :as circle-handlers]))
 
@@ -14,6 +15,8 @@
               [:get "sse" #'sse-handler]
               [:prefix "api"
                [:any "" #'example-handler]
+               [:prefix "user"
+                [:get ":id/path" #'user-handlers/path]]
                [:get "user-circle/:id" #'circle-handlers/user-circle]
                [:prefix "events"
                 [:get ":id" #'event-handlers/show]

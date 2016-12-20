@@ -33,6 +33,10 @@
        (q-get-all-for-event db)
        (map hydrate-circle-with-inner)))
 
+(defn get-all-for-user
+  [user-id]
+  (q-get-all-for-user db {:user-id user-id}))
+
 (defn create
   [event-id level size parent-circle-id]
   (let [data {:event-id event-id :level level :size size :parent-circle-id parent-circle-id}

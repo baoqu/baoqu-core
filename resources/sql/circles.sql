@@ -53,6 +53,12 @@ select c.*, count(uc."user-id") as "users" from circles as c
 where c."event-id" = :event-id
 group by c.id
 
+-- :name q-get-all-for-user :?
+select c.* from circles as c
+ inner join users_circles as uc
+         on uc."circle-id" = c.id
+      where uc."user-id" = :user-id
+
 -- :name q-get-by-id :? :1
 select * from circles
  where id = :id

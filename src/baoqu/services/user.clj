@@ -1,5 +1,6 @@
 (ns baoqu.services.user
-  (:require [baoqu.repos.user :as user-repo]))
+  (:require [baoqu.repos.user :as user-repo]
+            [baoqu.repos.circle :as circle-repo]))
 
 (defn create
   [name]
@@ -16,3 +17,12 @@
 (defn get-all
   []
   (user-repo/get-all))
+
+(defn get-user-path
+  [{:keys [id] :as user}]
+  (->> id
+       (circle-repo/get-all-for-user)
+       (sort-by :level)
+       (reverse)
+       (map :level)
+       (into [])))
