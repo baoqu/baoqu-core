@@ -7,7 +7,7 @@
                  [com.layerware/hugsql "0.4.7"]
                  [org.xerial/sqlite-jdbc "3.8.11.2"]
                  [org.clojure/tools.namespace "0.2.11"]
-                 [funcool/catacumba "1.1.1"]
+                 [funcool/catacumba "1.2.0"]
                  [org.slf4j/slf4j-simple "1.7.21"]]
   :plugins [[lein-cucumber "1.0.2"]
             [lein-codox "0.9.5"]]
