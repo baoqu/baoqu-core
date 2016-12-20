@@ -3,6 +3,8 @@
             [baoqu.services.event :as event-service]
             [baoqu.services.user :as user-service]
             [baoqu.services.circle :as circle-service]
+            [baoqu.services.idea :as idea-service]
+            [baoqu.services.comment :as comment-service]
             [baoqu.services.event-manager :as event-manager-service]))
 
 (defn show
@@ -14,15 +16,48 @@
       (json 404)
       (json 200 event))))
 
+(defn users
+  [ctx]
+  (let [id (get-in ctx [:route-params :id])
+        event (event-service/get-by-id id)]
+    (println "[HNDLR] event/users > id=" id)
+    (if-not event
+      (json 404)
+      (->> event
+           (user-service/get-all-for-event)
+           (json 200)))))
+
 (defn circles
   [ctx]
   (let [id (get-in ctx [:route-params :id])
         event (event-service/get-by-id id)]
     (println "[HNDLR] event/circles > id=" id)
-    (if (not event)
+    (if-not event
       (json 404)
       (->> event
            (circle-service/get-all-for-event)
+           (json 200)))))
+
+(defn ideas
+  [ctx]
+  (let [id (get-in ctx [:route-params :id])
+        event (event-service/get-by-id id)]
+    (println "[HNDLR] event/ideas > id=" id)
+    (if-not event
+      (json 404)
+      (->> event
+           (idea-service/get-all-for-event)
+           (json 200)))))
+
+(defn comments
+  [ctx]
+  (let [id (get-in ctx [:route-params :id])
+        event (event-service/get-by-id id)]
+    (println "[HNDLR] event/comments > id=" id)
+    (if-not event
+      (json 404)
+      (->> event
+           (comment-service/get-all-for-event)
            (json 200)))))
 
 (defn add-user

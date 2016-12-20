@@ -22,6 +22,12 @@
   [circle-id]
   (q-get-all-for-circle db {:circle-id circle-id}))
 
+(defn get-all-for-event
+  [event-id]
+  ;; TODO comments are not related to events
+  ;; (q-get-all-for-event db {:event-id event-id})
+  (q-get-all db))
+
 (defn create
   [user-id circle-id body]
   (let [date (str (.getTime (java.util.Date.)))

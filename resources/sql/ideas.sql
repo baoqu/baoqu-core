@@ -23,6 +23,9 @@ create table users_ideas (
 insert into ideas (name)
 values (:name)
 
+-- :name q-get-all :?
+select * from ideas
+
 -- :name q-get-by-id :? :1
 select * from ideas
 where id=:id

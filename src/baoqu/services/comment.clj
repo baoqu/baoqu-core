@@ -14,5 +14,9 @@
   (comment-repo/get-all))
 
 (defn get-all-for-circle
-  [circle]
-  (comment-repo/get-all-for-circle (:id circle)))
+  [{:keys [id] :as circle}]
+  (comment-repo/get-all-for-circle id))
+
+(defn get-all-for-event
+  [{:keys [id] :as event}]
+  (comment-repo/get-all-for-event id))

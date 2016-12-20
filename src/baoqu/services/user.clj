@@ -18,6 +18,12 @@
   []
   (user-repo/get-all))
 
+(defn get-all-for-event
+  [{:keys [id] :as event}]
+  ;; TODO users are not related to events
+  ;; (user-repo/get-all-by-event id)
+  (user-repo/get-all))
+
 (defn get-user-path
   [{:keys [id] :as user}]
   (->> id

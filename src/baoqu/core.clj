@@ -21,7 +21,10 @@
                [:prefix "events"
                 [:get ":id" #'event-handlers/show]
                 [:get ":id/circles" #'event-handlers/circles]
-                [:post ":id/users" #'event-handlers/add-user]]
+                [:get ":id/users" #'event-handlers/users]
+                [:post ":id/users" #'event-handlers/add-user]
+                [:get ":id/ideas" #'event-handlers/ideas]
+                [:get ":id/comments" #'event-handlers/comments]]
                [:prefix "circles"
                 [:get ":id/comments" #'circle-handlers/comments]
                 [:post ":id/comments" #'circle-handlers/add-comment]

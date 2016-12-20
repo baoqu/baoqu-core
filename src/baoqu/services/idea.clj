@@ -9,6 +9,10 @@
   [name]
   (idea-repo/get-by-name name))
 
+(defn get-all-for-event
+  [{:keys [id] :as event}]
+  (idea-repo/get-all-for-event id))
+
 (defn create
   [name]
   (idea-repo/create name))

@@ -26,6 +26,12 @@
   (let [idea (q-get-by-name db {:name name})]
     (if idea (hydrate idea) idea)))
 
+(defn get-all-for-event
+  [event-id]
+  ;; TODO ideas are not related to events
+  ;; (q-get-all-for-event db {:event-id event-id})
+  (q-get-all db))
+
 (defn create
   [name]
   (let [data {:name name}
