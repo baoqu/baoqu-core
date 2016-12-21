@@ -61,6 +61,17 @@
            (comment-service/get-all-for-event)
            (json 200)))))
 
+(defn votes
+  [ctx]
+  (let [id (get-in ctx [:route-params :id])
+        event (event-service/get-by-id id)]
+    (println "[HNDLR] event/votes > id=" id)
+    (if-not event
+      (json 404)
+      (->> event
+           (idea-service/get-all-votes-for-event)
+           (json 200)))))
+
 (defn add-user
   [ctx]
   (let [id (get-in ctx [:route-params :id])

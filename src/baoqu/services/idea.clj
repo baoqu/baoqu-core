@@ -10,8 +10,12 @@
   (idea-repo/get-by-name name))
 
 (defn get-all-for-event
-  [{:keys [id] :as event}]
+  [{:keys [id]}]
   (idea-repo/get-all-for-event id))
+
+(defn get-all-votes-for-event
+  [{:keys [id]}]
+  (idea-repo/get-all-votes-for-event id))
 
 (defn create
   [name]

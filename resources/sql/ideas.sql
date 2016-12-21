@@ -26,6 +26,9 @@ values (:name)
 -- :name q-get-all :?
 select * from ideas
 
+-- :name q-get-all-votes
+select * from users_ideas
+
 -- :name q-get-by-id :? :1
 select * from ideas
 where id=:id

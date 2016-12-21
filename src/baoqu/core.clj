@@ -24,7 +24,8 @@
                 [:get ":id/users" #'event-handlers/users]
                 [:post ":id/users" #'event-handlers/add-user]
                 [:get ":id/ideas" #'event-handlers/ideas]
-                [:get ":id/comments" #'event-handlers/comments]]
+                [:get ":id/comments" #'event-handlers/comments]
+                [:get ":id/votes" #'event-handlers/votes]]
                [:prefix "circles"
                 [:get ":id/comments" #'circle-handlers/comments]
                 [:post ":id/comments" #'circle-handlers/add-comment]

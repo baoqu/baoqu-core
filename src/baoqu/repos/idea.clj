@@ -27,10 +27,16 @@
     (if idea (hydrate idea) idea)))
 
 (defn get-all-for-event
-  [event-id]
+  [id]
   ;; TODO ideas are not related to events
-  ;; (q-get-all-for-event db {:event-id event-id})
+  ;; (q-get-all-for-event db {:event-id id})
   (q-get-all db))
+
+(defn get-all-votes-for-event
+  [id]
+  ;; TODO ideas are not related to events
+  ;; (q-get-all-votes-for-event db {:event-id id})
+  (q-get-all-votes db))
 
 (defn get-all-for-user
   [user-id]
