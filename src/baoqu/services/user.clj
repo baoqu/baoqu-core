@@ -37,15 +37,15 @@
 
 (defn get-by-id
   [id]
-  (-> id
-      (user-repo/get-by-id)
-      (hydrate)))
+  (let [user (user-repo/get-by-id id)]
+    (if user
+      (hydrate user))))
 
 (defn get-by-name
   [name]
-  (-> name
-      (user-repo/get-by-name)
-      (hydrate)))
+  (let [user (user-repo/get-by-name name)]
+    (if user
+      (hydrate user))))
 
 (defn get-all
   []
