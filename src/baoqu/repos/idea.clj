@@ -32,6 +32,10 @@
   ;; (q-get-all-for-event db {:event-id event-id})
   (q-get-all db))
 
+(defn get-all-for-user
+  [user-id]
+  (q-get-all-for-user db {:user-id user-id}))
+
 (defn create
   [name]
   (let [data {:name name}

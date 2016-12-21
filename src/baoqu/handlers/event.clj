@@ -23,9 +23,10 @@
     (println "[HNDLR] event/users > id=" id)
     (if-not event
       (json 404)
-      (->> event
+      (do (println "EVENT" event)
+        (->> event
            (user-service/get-all-for-event)
-           (json 200)))))
+           (json 200))))))
 
 (defn circles
   [ctx]

@@ -34,6 +34,12 @@ where id=:id
 select * from ideas
 where name=:name
 
+-- :name q-get-all-for-user :?
+select i.* from ideas as i
+ inner join users_ideas as ui
+         on i.id = ui."idea-id"
+      where ui."user-id" = :user-id
+
 -- :name q-get-vote :1
 select * from users_ideas
 where "user-id"=:user-id and "idea-id"=:idea-id
