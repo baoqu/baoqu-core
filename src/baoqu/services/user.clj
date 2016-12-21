@@ -65,5 +65,5 @@
        (circle-repo/get-all-for-user)
        (sort-by :level)
        (reverse)
-       (map :level)
+       (map :id)
        (into [])))
