@@ -14,6 +14,10 @@
   [name]
   (q-get-by-name db {:name name}))
 
+(defn get-all-by-circle
+  [circle-id]
+  (q-get-all-by-circle db {:circle-id circle-id}))
+
 (defn get-all
   []
   (q-get-all db))

@@ -1,6 +1,7 @@
 (ns baoqu.services.circle
   (:require [baoqu.repos.circle :as circle-repo]
             [baoqu.repos.idea :as idea-repo]
+            [baoqu.repos.user :as user-repo]
             [baoqu.utils :as utils]))
 
 (defn create
@@ -11,13 +12,28 @@
   [id]
   (circle-repo/get-by-id id))
 
+(defn hydrate-with-users
+  [circles]
+  (into []
+          (map #(->> %
+                     (:id)
+                     (user-repo/get-all-by-circle)
+                     (map :id)
+                     (into #{})
+                     (assoc % :users))
+               circles)))
+
 (defn get-all
   []
-  (circle-repo/get-all))
+  (-> (circle-repo/get-all)
+      (hydrate-with-users)))
 
 (defn get-all-for-event
   [event]
-  (circle-repo/get-all-for-event (:id event)))
+  (-> event
+      (:id)
+      (circle-repo/get-all-for-event)
+      (hydrate-with-users)))
 
 (defn find-or-create-incomplete-circle-for-event-and-level
   [event level agreement-factor]

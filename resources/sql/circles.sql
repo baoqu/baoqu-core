@@ -47,7 +47,7 @@ select id from circles
 where "parent-circle-id" = :circle-id
 
 -- :name q-get-all-for-event :?
-select c.*, count(uc."user-id") as "users" from circles as c
+select c.* from circles as c
  inner join users_circles as uc
          on c.id = uc."circle-id"
 where c."event-id" = :event-id
@@ -77,7 +77,6 @@ values (:user-id, :circle-id)
 delete from users_circles
  where "user-id" = :user-id
    and "circle-id" = :circle-id
-
 -- :name q-get-all-incomplete :?
 select * from circles as c
   left join users_circles as cs
