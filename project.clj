@@ -3,7 +3,7 @@
   :url "http://baoqu.org"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.8.0"]
+  :dependencies [[org.clojure/clojure "1.9.0-alpha14"]
                  [com.layerware/hugsql "0.4.7"]
                  [org.xerial/sqlite-jdbc "3.8.11.2"]
                  [org.clojure/tools.namespace "0.2.11"]
