@@ -1,5 +1,8 @@
 (ns baoqu.core
-  (:require [catacumba.core :as ct]
+  (:require [mount.core :as mount]
+            [mount.core :refer [defstate]]
+            [clojure.tools.namespace.repl :as repl]
+            [catacumba.core :as ct]
             [catacumba.handlers.parse :as parse]
             [baoqu.configuration :refer [config]]
             [baoqu.handlers.root :refer [sse-handler example-handler]]
@@ -8,6 +11,16 @@
             [baoqu.handlers.user :as user-handlers]
             [baoqu.handlers.idea :as idea-handlers]
             [baoqu.handlers.circle :as circle-handlers]))
+
+(declare -main)
+
+(defn- start
+  []
+  (-main))
+
+(defn- stop
+  []
+  (mount/stop))
 
 (def app
   (ct/routes [[:any #'cors-handler]
@@ -34,8 +47,15 @@
                 [:post "downvote" #'idea-handlers/downvote]
                 [:post "upvote" #'idea-handlers/upvote]]]]))
 
+(defn server-start
+  []
+  (let [server-port (:server-port config)]
+    (ct/run-server app {:port server-port})))
+
+(defstate server
+  :start (server-start)
+  :stop (.stop server))
+
 (defn -main
   [& args]
-  (let [server-port (:server-port config)]
-    (println "Starting Baoqu application on port" server-port)
-    (ct/run-server app {:port server-port})))
+  (mount/start))
