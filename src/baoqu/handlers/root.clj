@@ -18,12 +18,28 @@
   [ctx out]
   (let [local-c (chan)
         _ (tap main-mult local-c)]
+
+    ;; In the let above we need to get the user id or something to
+    ;; identify the connection
+
+    ;; As the initial approach, knowing both the user-id and the event
+    ;; in wich its participating will be enough
+
     (go-loop []
+
+      ;; In this go-loop we have the user-id from the user, so all
+      ;; messages should be identified per user or users, so we can
+      ;; decide if we should send each message to the specific user or
+      ;; not
+
       (when-let [msg (<! local-c)]
+
+        ;; (if (= event-id (:event-id msg)) ... )
+
         (if-not (>! out msg)
           (do
             (println "=================")
-            (println "CLOSING A CHANNEL")
+            (println "CLOSING A CHANNEL") ;; FOR USER WHATEVER
             (println "=================")
             (close! local-c))
           (recur))))))
