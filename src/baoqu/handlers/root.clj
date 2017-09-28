@@ -25,6 +25,15 @@
     ;; As the initial approach, knowing both the user-id and the event
     ;; in wich its participating will be enough
 
+    ;; so then: (maybe in a middleware handler)
+    ;;  - check cookie for user token
+    ;;  - identify user
+    ;;  - authorize user (is in the event?)
+    ;;  - if true, allow and get here, with the userId in some
+    ;;    permanent structure between handlers (some part of the
+    ;;    context maybe?)
+    ;;  - if not, reject
+
     (go-loop []
 
       ;; In this go-loop we have the user-id from the user, so all
