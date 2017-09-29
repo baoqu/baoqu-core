@@ -32,6 +32,7 @@
                 [:get ":id/path" #'user-handlers/path]]
                [:get "user-circle/:id" #'circle-handlers/user-circle]
                [:prefix "events"
+                [:get "" #'event-handlers/list]
                 [:get ":id" #'event-handlers/show]
                 [:get ":id/circles" #'event-handlers/circles]
                 [:get ":id/users" #'event-handlers/users]

@@ -7,6 +7,14 @@
             [baoqu.services.comment :as comment-service]
             [baoqu.services.event-manager :as event-manager-service]))
 
+(defn list
+  [ctx]
+  (println "[HNDLR] event/list")
+  (let [event-list (event-service/get-all)]
+    (if-not event-list
+      (json 404)
+      (json 200 event-list))))
+
 (defn show
   [ctx]
   (let [id (get-in ctx [:route-params :id])

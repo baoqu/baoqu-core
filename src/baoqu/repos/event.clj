@@ -10,6 +10,10 @@
   []
   (q-create-events-table db))
 
+(defn get-all
+  []
+  (q-get-all db))
+
 (defn get-by-id
   [id]
   (q-get-by-id db {:id id}))

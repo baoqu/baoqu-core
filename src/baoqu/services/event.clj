@@ -5,6 +5,10 @@
   [name circle-size agreement-factor]
   (event-repo/create name circle-size agreement-factor))
 
+(defn get-all
+  []
+  (event-repo/get-all))
+
 (defn get-by-id
   [id]
   (event-repo/get-by-id id))

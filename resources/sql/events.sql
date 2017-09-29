@@ -14,7 +14,7 @@ create table events (
 insert into events (name, "circle-size", "agreement-factor")
 values (:name, :circle-size, :agreement-factor)
 
--- :name q-all :? :*
+-- :name q-get-all :? :*
 select * from events
 
 -- :name q-get-by-id :? :1
