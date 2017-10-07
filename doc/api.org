@@ -1,0 +1,393 @@
+#+title: Baoqu REST API
+#+author: Miguel de la Cruz <mgdelacroix@gmail.com>
+
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/htmlize.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/readtheorg.css"/>
+
+#+HTML_HEAD: <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+#+HTML_HEAD: <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/readtheorg/js/readtheorg.js"></script>
+
+* Root
+
+** =GET /sse=
+
+** =GET /api=
+
+   This needs to change, from the "example" right now to a hash of the
+   application's last commit.
+
+* Users
+
+** =GET /api/users/:user-id/path=
+
+   Returns a list with the path of the circles of a user for an event.
+
+   *CHANGE:*
+
+   Should become =/api/events/:event-id/users/:user-id/path=
+
+   *Response:*
+
+   #+BEGIN_SRC js
+     [ 4, 1 ]
+   #+END_SRC
+
+** =GET /api/user-circle/:user-id=
+
+   Returns the highest level circle for the current user in an event.
+
+   *CHANGE:*
+
+   Should become =/api/events/:event-id/users/:user-id/highest-circle=
+
+   *Response:*
+
+   #+BEGIN_SRC js
+     {
+       "id": 4,
+       "event-id": 2,
+       "level": 2,
+       "size": 3,
+       "parent-circle-id": null,
+       "user-id": 1,
+       "circle-id": 4
+     }
+   #+END_SRC
+
+* Events
+
+** =GET /api/events=
+
+   Returns a list of the platform's events.
+
+   *Response:*
+
+   #+BEGIN_SRC js
+     [
+       {
+         "id": 1,
+         "name": "Probando Baoqu",
+         "description": null,
+         "circle-size": 3,
+         "agreement-factor": 3
+       },
+       {
+         "id": 2,
+         "name": "Ciclismo en la Guindalera, una discusión abierta",
+         "description": null,
+         "circle-size": 3,
+         "agreement-factor": 3
+       }
+     ]
+   #+END_SRC
+
+** =GET /api/events/:event-id=
+
+   Returns the details of an event.
+
+   *Response:*
+
+   #+BEGIN_SRC js
+     {
+       "id": 1,
+       "name": "Probando Baoqu",
+       "description": null,
+       "circle-size": 3,
+       "agreement-factor": 3
+     }
+   #+END_SRC
+
+** =GET /api/events/:event-id/circles=
+
+   Get all circles of an event.
+
+   *Response:*
+
+   #+BEGIN_SRC js
+     [
+       {
+         "id": 1,
+         "event-id": 2,
+         "level": 1,
+         "size": 3,
+         "parent-circle-id": 4,
+         "inner-circles": [],
+         "users": [ 1, 3, 2 ]
+       },
+       {
+         "id": 2,
+         "event-id": 2,
+         "level": 1,
+         "size": 3,
+         "parent-circle-id": 4,
+         "inner-circles": [],
+         "users": [ 4, 6, 5 ]
+       },
+
+       ...
+
+     ]
+   #+END_SRC
+
+** =GET /api/events/:event-id/users=
+
+   Get all users of an event.
+
+   *Response:*
+
+   #+BEGIN_SRC js
+     [
+       {
+         "id": 1,
+         "name": "Ramira",
+         "circles": [ 1, 4 ],
+         "ideas": [ 1, 2 ]
+       },
+       {
+         "id": 2,
+         "name": "Maria",
+         "circles": [ 1, 4 ],
+         "ideas": [ 1, 2 ]
+       },
+
+       ...
+
+     ]
+   #+END_SRC
+
+** =POST /api/events/:event-id/users=
+
+   Add a user to the event.
+
+   *Request:*
+
+   | Param | Type   | Required | Description                 |
+   |-------+--------+----------+-----------------------------|
+   | name  | string | yes      | The name of the user to add |
+
+   *Payload example:*
+
+   #+BEGIN_SRC js
+     {
+       "name": "NewUserName"
+     }
+   #+END_SRC
+
+   *Response:*
+
+   #+BEGIN_SRC js
+   #+END_SRC
+
+** =GET /api/events/:event-id/ideas=
+
+   Get all ideas of the event.
+
+   *Response:*
+
+   #+BEGIN_SRC js
+     [
+       {
+         "id": 4,
+         "name": "Cómo conectar con el centro: bulevar en Juan Bravo",
+         "event-id": 2
+       },
+       {
+         "id": 1,
+         "name": "En la décima PIWEEK lo arreglamos todo",
+         "event-id": 2
+       },
+       {
+         "id": 6,
+         "name": "Hay que arreglar los baches, son un peligro",
+         "event-id": 2
+       },
+
+       ...
+
+     ]
+   #+END_SRC
+
+** =GET /api/events/:event-id/comments=
+
+   Get all comments of the event.
+
+   *Response:*
+
+   #+BEGIN_SRC js
+     [
+       {
+         "id": 1,
+         "user-id": 7,
+         "circle-id": 3,
+         "body": "Hola bobos!",
+         "date": 1507408043408,
+         "name": "Magikarp"
+       },
+
+       ...
+
+     ]
+   #+END_SRC
+
+** =GET /api/events/:event-id/votes=
+
+   Get all the votes of the event.
+
+   *Response:*
+
+   #+BEGIN_SRC js
+     [
+       {
+         "user-id": 1,
+         "idea-id": 1
+       },
+       {
+         "user-id": 2,
+         "idea-id": 1
+       },
+       {
+         "user-id": 3,
+         "idea-id": 1
+       },
+       {
+         "user-id": 4,
+         "idea-id": 1
+       },
+
+       ...
+
+     ]
+   #+END_SRC
+
+* Circles
+
+** =GET /api/circles/:circle-id/comments=
+
+   Get all comments of a circle.
+
+   *Response:*
+
+   #+BEGIN_SRC js
+     [
+       {
+         "id": 1,
+         "user-id": 7,
+         "circle-id": 3,
+         "body": "Hola bobos!",
+         "date": 1507408043408,
+         "name": "Magikarp"
+       }
+     ]
+   #+END_SRC
+
+** =POST /api/circles/:circle-id/comments=
+
+   Create a new comment in a circle.
+
+   *Request:*
+
+   | Param        | Type   | Required | Description                                       |
+   |--------------+--------+----------+---------------------------------------------------|
+   | name         | string | yes      | The name of the user that is creating the comment |
+   | comment-body | string | yes      | The body of the comment                           |
+
+   *Payload example:*
+
+   #+BEGIN_SRC js
+     {
+       "name": "MyUsername",
+       "comment-body": "Hello all!"
+     }
+   #+END_SRC
+
+   *Response:*
+
+   #+BEGIN_SRC js
+   #+END_SRC
+
+** =GET /api/circles/:circle-id/ideas=
+
+   Get all ideas for a circle.
+
+   #+BEGIN_SRC js
+     [
+       {
+         "id": 1,
+         "name": "En la décima PIWEEK lo arreglamos todo",
+         "votes": 1,
+         "voted?": false
+       },
+       {
+         "id": 5,
+         "name": "Sin presupuestos es difícil hacer nada",
+         "votes": 1,
+         "voted?": false
+       }
+     ]
+   #+END_SRC
+
+* Ideas
+
+** =POST /api/ideas/upvote=
+
+   Upvote an idea.
+
+   *CHANGE:*
+
+   Should become: =/api/events/:event-id/ideas/upvote=
+
+   *Request:*
+
+   | Param     | Type    | Required | Description          |
+   |-----------+---------+----------+----------------------|
+   | user-id   | integer | yes      | ID of the user       |
+   | idea-name | string  | yes      | The body of the idea |
+   | event-id  | integer | yes      | ID of the event      |
+
+   *Payload example:*
+
+   #+BEGIN_SRC js
+     {
+       "user-id": 1,
+       "idea-name": "My idea",
+       "event-id": 3
+     }
+   #+END_SRC
+
+   *Response:*
+
+   #+BEGIN_SRC js
+   #+END_SRC
+
+** =POST /api/ideas/downvote=
+
+   Downvote an idea.
+
+   *CHANGE:*
+
+   Should become: =/api/events/:event-id/ideas/downvote=
+
+   *Request:*
+
+   | Param     | Type    | Required | Description          |
+   |-----------+---------+----------+----------------------|
+   | user-id   | integer | yes      | ID of the user       |
+   | idea-name | string  | yes      | The body of the idea |
+   | event-id  | integer | yes      | ID of the event      |
+
+   *Payload example:*
+
+   #+BEGIN_SRC js
+     {
+       "user-id": 1,
+       "idea-name": "My idea",
+       "event-id": 3
+     }
+   #+END_SRC
+
+   *Response:*
+
+   #+BEGIN_SRC js
+   #+END_SRC

@@ -1,0 +1,65 @@
+# -*- restclient -*-
+#
+# GET /sse
+GET http://localhost:5050/sse
+
+# GET /api
+GET http://localhost:5050/api
+
+## USERS
+# GET /api/users/:id/path
+GET http://localhost:5050/api/users/1/path
+
+# GET /api/user-circle/:id
+GET http://localhost:5050/api/user-circle/1
+
+## EVENTS
+# GET /api/events
+GET http://localhost:5050/api/events
+
+# GET /api/events/:event-id
+GET http://localhost:5050/api/events/1
+
+# GET /api/events/:event-id/circles
+GET http://localhost:5050/api/events/2/circles
+
+# GET /api/events/:event-id/users
+GET http://localhost:5050/api/events/2/users
+
+# POST /api/events/:event-id/users
+POST http://localhost:5050/api/events/2/users
+
+{
+    "name": "New user name"
+}
+
+# GET /api/events/:event-id/ideas
+GET http://localhost:5050/api/events/2/ideas
+
+# GET /api/events/:event-id/comments
+GET http://localhost:5050/api/events/2/comments
+
+# GET /api/events/:event-id/votes
+GET http://localhost:5050/api/events/2/votes
+
+## CIRCLES
+# GET /api/circles/:circle-id/comments
+GET http://localhost:5050/api/circles/3/comments
+
+# POST /api/circles/:circle-id/comments
+POST http://localhost:5050/api/circles/3/comments
+
+{
+    "name": "My Username",
+    "commentBody": "Hello all!"
+}
+
+# GET /api/circles/:circle-id/ideas
+GET http://localhost:5050/api/circles/3/ideas
+
+## IDEAS
+# POST /api/ideas/upvote
+POST http://localhost:5050/api/ideas/upvote
+
+# POST /api/ideas/downvote
+POST http://localhost:5050/api/ideas/downvote
