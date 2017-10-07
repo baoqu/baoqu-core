@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+: ${BC_DB_PATH:=$HOME/baoqu-core-db.sqlite}
+: ${BC_SERVER_PORT:=3040}
+: ${BC_SERVER_URL:="http://app.baoqu.org"}
+
+/OPENJDK/bin/java -Dclojure.server.repl="{:port 5555 :accept clojure.core.server/repl}" -jar /OUT/opt/baoqu-core/baoqu-core.jar -m baoqu.core
