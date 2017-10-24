@@ -12,9 +12,7 @@
   [ctx]
   (println "[HNDLR] event/list")
   (let [event-list (es/get-all)]
-    (if-not event-list
-      (json 404)
-      (json 200 event-list))))
+    (json 200 event-list)))
 
 (defn show
   [ctx]
