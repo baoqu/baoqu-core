@@ -1,23 +1,23 @@
 (ns baoqu.services.circle
-  (:require [baoqu.repos.circle :as circle-repo]
-            [baoqu.repos.idea :as idea-repo]
-            [baoqu.repos.user :as user-repo]
+  (:require [baoqu.repos.circle :as cr]
+            [baoqu.repos.idea :as ir]
+            [baoqu.repos.user :as ur]
             [baoqu.utils :as utils]))
 
 (defn create
   [event-id level parent-circle]
-  (circle-repo/create event-id level parent-circle))
+  (cr/create event-id level parent-circle))
 
 (defn get-by-id
   [id]
-  (circle-repo/get-by-id id))
+  (cr/get-by-id id))
 
 (defn hydrate-with-users
   [circles]
   (into []
           (map #(->> %
                      (:id)
-                     (user-repo/get-all-by-circle)
+                     (ur/get-all-by-circle)
                      (map :id)
                      (into #{})
                      (assoc % :users))
@@ -25,14 +25,14 @@
 
 (defn get-all
   []
-  (-> (circle-repo/get-all)
+  (-> (cr/get-all)
       (hydrate-with-users)))
 
 (defn get-all-for-event
   [event]
   (-> event
       (:id)
-      (circle-repo/get-all-for-event)
+      (cr/get-all-for-event)
       (hydrate-with-users)))
 
 (defn find-or-create-incomplete-circle-for-event-and-level
@@ -40,9 +40,9 @@
   (let [event-id (:id event)
         circle-size (:circle-size event)
         leveled-agreement-factor (utils/get-leveled-agreement-factor circle-size level agreement-factor)
-        incomplete-event-circles (circle-repo/get-all-incomplete-by-event-and-level event-id level leveled-agreement-factor)]
+        incomplete-event-circles (cr/get-all-incomplete-by-event-and-level event-id level leveled-agreement-factor)]
     (if (empty? incomplete-event-circles)
-      (circle-repo/create event-id level circle-size nil)
+      (cr/create event-id level circle-size nil)
       (first incomplete-event-circles))))
 
 (defn become-child
@@ -54,14 +54,14 @@
   (->> parent-circle
       (:id)
       (assoc child-circle :parent-circle-id)
-      (circle-repo/persist))
+      (cr/persist))
 
   ;; add child users to parent
   (as-> child-circle x
-       (circle-repo/get-circle-users x)
+       (cr/get-circle-users x)
        (map :id x)
        (doseq [user-id x]
-         (circle-repo/add-user-to-circle user-id (:id parent-circle)))))
+         (cr/add-user-to-circle user-id (:id parent-circle)))))
 
 (defn remove-child
   "The first circle is removed as a child from the second, deleting its users
@@ -71,30 +71,30 @@
   ;; update child
   (->> nil
    (assoc child-circle :parent-circle-id)
-   (circle-repo/persist))
+   (cr/persist))
 
   ;; remove users from parent
   (as-> child-circle x
-   (circle-repo/get-circle-users x)
+   (cr/get-circle-users x)
    (map :id x)
    (doseq [user-id x]
-     (circle-repo/remove-user-from-circle user-id (:id parent-circle))))
+     (cr/remove-user-from-circle user-id (:id parent-circle))))
 
   ;; delete parent if necessary
-  (if (empty? (circle-repo/get-circle-users parent-circle))
-    (circle-repo/delete parent-circle)))
+  (if (empty? (cr/get-circle-users parent-circle))
+    (cr/delete parent-circle)))
 
 (defn add-user-to-circle
   [user circle]
-  (circle-repo/add-user-to-circle (:id user) (:id circle)))
+  (cr/add-user-to-circle (:id user) (:id circle)))
 
 (defn get-circle-for-user-and-level
   [user level]
-  (circle-repo/get-circle-for-user-and-level (:id user) level))
+  (cr/get-circle-for-user-and-level (:id user) level))
 
 (defn get-highest-level-circle
   [user]
-  (circle-repo/get-highest-level-circle (:id user)))
+  (cr/get-highest-level-circle (:id user)))
 
 (defn get-highest-agreed-circle
   "Highest circle - 1"
@@ -105,11 +105,11 @@
 
 (defn get-circle-ideas
   [circle]
-  (circle-repo/get-circle-ideas (:id circle)))
+  (cr/get-circle-ideas (:id circle)))
 
 (defn- hydrate-with-user-votes
   [ideas user]
-  (let [votes (idea-repo/get-user-votes (:id user))
+  (let [votes (ir/get-user-votes (:id user))
         voted-ideas-ids (into #{} (map :idea-id votes))]
     (for [idea ideas]
                (let [voted? (contains? voted-ideas-ids (:id idea))]
@@ -125,4 +125,4 @@
   (let [size (:size circle)
         level (:level circle)
         leveled-agreement-factor (utils/get-leveled-agreement-factor size level agreement-factor)]
-    (circle-repo/get-circle-agreements (:id circle) leveled-agreement-factor)))
+    (cr/get-circle-agreements (:id circle) leveled-agreement-factor)))

@@ -5,20 +5,20 @@
 -- :results :raw
 create table users (
     id integer primary key autoincrement,
-    name varchar(255)
+    username varchar(255)
 )
 
 -- :name q-insert-user :i!
-insert into users (name)
-values (:name)
+insert into users (username)
+values (:username)
 
 -- :name q-get-by-id :? :1
 select * from users
 where id=:id
 
--- :name q-get-by-name :? :1
+-- :name q-get-by-username :? :1
 select * from users
-where name=:name
+where username=:username
 
 -- :name q-get-all-by-circle :?
 select u.* from users as u

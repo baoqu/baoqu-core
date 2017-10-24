@@ -45,9 +45,9 @@ At the beginning of the event, we will have all users inside level 0
   its own again. Finally, if the whole level 2 circle gets to an
   agreement, it'll level up to a level 3 circle, containing one level
   2 circle and waiting for another two."
-  (:require [baoqu.services.idea :as idea-service]
-            [baoqu.services.circle :as circle-service]
-            [baoqu.services.event :as event-service]
+  (:require [baoqu.services.idea :as is]
+            [baoqu.services.circle :as cs]
+            [baoqu.services.event :as es]
             [baoqu.utils :as utils]
             [baoqu.async :refer [send-sse]]))
 
@@ -60,8 +60,8 @@ At the beginning of the event, we will have all users inside level 0
   we will send an event to the frontend."
   [user event]
   (let [agreement-factor (:agreement-factor event)
-        incomplete-circle (circle-service/find-or-create-incomplete-circle-for-event-and-level event 1 agreement-factor)]
-    (circle-service/add-user-to-circle user incomplete-circle)
+        incomplete-circle (cs/find-or-create-incomplete-circle-for-event-and-level event 1 agreement-factor)]
+    (cs/add-user-to-circle user incomplete-circle)
     (send-sse {} "new-user")
     user))
 
@@ -69,7 +69,7 @@ At the beginning of the event, we will have all users inside level 0
 (declare should-grow?)
 
 (defn upvote
-  "When an upvote arrives, it is passed directly to the `idea-service`
+  "When an upvote arrives, it is passed directly to the `is`
   and a new association between the user and the idea is created.
 
 ## Recursive agreement
@@ -84,9 +84,9 @@ At the beginning of the event, we will have all users inside level 0
 
   The same thing happens when shrinking a circle."
   [user idea-name]
-  (let [idea (idea-service/find-or-create-idea-by-name idea-name)
-        circle (circle-service/get-highest-level-circle user)]
-    (idea-service/upvote-idea user idea)
+  (let [idea (is/find-or-create-idea-by-name idea-name)
+        circle (cs/get-highest-level-circle user)]
+    (is/upvote-idea user idea)
     (send-sse {:idea idea :user user :circle-id (:id circle)} "upvote")
     (loop [circle circle]
       (if (should-grow? circle)
@@ -101,9 +101,9 @@ At the beginning of the event, we will have all users inside level 0
   circle given its agreement-factor and if there is any, it will call
   the `grow-circle` method."
   [circle]
-  (let [event (event-service/get-by-id (:event-id circle))
+  (let [event (es/get-by-id (:event-id circle))
         agreement-factor (:agreement-factor event)
-        agreements (circle-service/get-circle-agreements circle agreement-factor)]
+        agreements (cs/get-circle-agreements circle agreement-factor)]
     (not (empty? agreements))))
 
 (defn grow-circle
@@ -113,14 +113,14 @@ At the beginning of the event, we will have all users inside level 0
   sends a sse notification to the clients for them to show it in the
   ui."
   [circle]
-  (let [event (event-service/get-by-id (:event-id circle))
+  (let [event (es/get-by-id (:event-id circle))
         circle-id (:id circle)
         next-level (+ 1 (:level circle))
         circle-size (:circle-size event)
         agreement-factor (:agreement-factor event)
         leveled-agreement-factor (utils/get-leveled-agreement-factor circle-size next-level agreement-factor)
-        next-circle (circle-service/find-or-create-incomplete-circle-for-event-and-level event next-level leveled-agreement-factor)]
-    (circle-service/become-child circle next-circle)
+        next-circle (cs/find-or-create-incomplete-circle-for-event-and-level event next-level leveled-agreement-factor)]
+    (cs/become-child circle next-circle)
     (send-sse {} "grow")
     (send-sse {"circle-id" circle-id "title" "Habéis alcanzado un acuerdo" "description" "Ahora os vamos a juntar con más gente que ha conseguido también un acuerdo, a ver si sois capaces de llegar a un acuerdo. ¿De acuerdo?"} "notification")
     next-circle))
@@ -129,7 +129,7 @@ At the beginning of the event, we will have all users inside level 0
 (declare should-shrink?)
 
 (defn downvote
-  "When a downvote arrives, it's passed to the `idea-service` to
+  "When a downvote arrives, it's passed to the `is` to
   remove the association between the user and the idea. As a result of
   that removal, the highest circle in which the user is in can shrink
   because the agreement has been broken, so the method performs this
@@ -144,8 +144,8 @@ At the beginning of the event, we will have all users inside level 0
   Because of this, the `should-shrink?` test is done recursively, to
   cover the case of a user causing more various circles to shrink."
   [user idea]
-  (let [circle (circle-service/get-highest-level-circle user)]
-    (idea-service/downvote-idea user idea)
+  (let [circle (cs/get-highest-level-circle user)]
+    (is/downvote-idea user idea)
     (send-sse {:idea idea :user user :circle-id (:id circle)} "downvote")
     (loop [user user]
       (if (should-shrink? user)
@@ -161,9 +161,9 @@ At the beginning of the event, we will have all users inside level 0
   the first one which could shrink. Then it checks for the agreements
   and if there are none left, it decides it should shrink."
   [user]
-  (let [circle (circle-service/get-highest-agreed-circle user)]
+  (let [circle (cs/get-highest-agreed-circle user)]
     (if-not (empty? circle)
-      (let [agreements (circle-service/get-circle-agreements circle (:size circle))]
+      (let [agreements (cs/get-circle-agreements circle (:size circle))]
         (empty? agreements))
       false)))
 
@@ -174,16 +174,16 @@ At the beginning of the event, we will have all users inside level 0
 
   We start from the user who downvoted, which is the common point in
   between these two circles, and after getting those circles, we
-  delegate in `circle-service` the removal of the links in between
+  delegate in `cs` the removal of the links in between
   both circles.
 
   When the process is completed, we send a notification to the
   front-end and return the user to be used in the recursive
   `should-shrink?` call."
   [user]
-  (let [hightest-circle (circle-service/get-highest-level-circle user)
-        hightest-agreed-circle (circle-service/get-highest-agreed-circle user)]
-    (circle-service/remove-child hightest-agreed-circle hightest-circle)
+  (let [hightest-circle (cs/get-highest-level-circle user)
+        hightest-agreed-circle (cs/get-highest-agreed-circle user)]
+    (cs/remove-child hightest-agreed-circle hightest-circle)
     ;; (send-sse {"circle-id" (:id hightest-circle) "title" "Parece que ya no estáis de acuerdo" "description" "Os vamos a separar para que intentéis encontrar de nuevo aquella idea que compartís."} "notification")
     ;; Related to the SSE message: There is no way to distinguish if
     ;; I'm shrinking or just observing how a brother shrinks
@@ -195,6 +195,6 @@ At the beginning of the event, we will have all users inside level 0
   "This method just builds a map with the event details and returns
   it to the caller."
   [event]
-  (let [circles (circle-service/get-all-for-event event)]
+  (let [circles (cs/get-all-for-event event)]
     {:event event
      :circles circles}))

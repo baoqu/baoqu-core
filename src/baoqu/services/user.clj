@@ -1,17 +1,17 @@
 (ns baoqu.services.user
-  (:require [baoqu.repos.user :as user-repo]
-            [baoqu.repos.idea :as idea-repo]
-            [baoqu.repos.circle :as circle-repo]))
+  (:require [baoqu.repos.user :as ur]
+            [baoqu.repos.idea :as ir]
+            [baoqu.repos.circle :as cr]))
 
 (defn create
-  [name]
-  (user-repo/create name))
+  [username]
+  (ur/create username))
 
 (defn hydrate-with-circles
   [user]
   (->> user
        (:id)
-       (circle-repo/get-all-for-user)
+       (cr/get-all-for-user)
        (map :id)
        (into #{})
        (assoc user :circles)))
@@ -20,7 +20,7 @@
   [user]
   (->> user
        (:id)
-       (idea-repo/get-all-for-user)
+       (ir/get-all-for-user)
        (map :id)
        (into #{})
        (assoc user :ideas)))
@@ -37,32 +37,32 @@
 
 (defn get-by-id
   [id]
-  (let [user (user-repo/get-by-id id)]
+  (let [user (ur/get-by-id id)]
     (if user
       (hydrate user))))
 
-(defn get-by-name
-  [name]
-  (let [user (user-repo/get-by-name name)]
+(defn get-by-username
+  [username]
+  (let [user (ur/get-by-username username)]
     (if user
       (hydrate user))))
 
 (defn get-all
   []
-  (->> (user-repo/get-all)
+  (->> (ur/get-all)
        (hydrate-all)))
 
 (defn get-all-for-event
   [{:keys [id]}]
   ;; TODO users are not related to events
-  ;; (user-repo/get-all-by-event id)
-  (-> (user-repo/get-all)
+  ;; (ur/get-all-by-event id)
+  (-> (ur/get-all)
       (hydrate-all)))
 
 (defn get-user-path
   [{:keys [id]}]
   (->> id
-       (circle-repo/get-all-for-user)
+       (cr/get-all-for-user)
        (sort-by :level)
        (reverse)
        (map :id)

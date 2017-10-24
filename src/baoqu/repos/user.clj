@@ -10,9 +10,9 @@
   [id]
   (q-get-by-id db {:id id}))
 
-(defn get-by-name
-  [name]
-  (q-get-by-name db {:name name}))
+(defn get-by-username
+  [username]
+  (q-get-by-username db {:username username}))
 
 (defn get-all-by-circle
   [circle-id]
@@ -27,8 +27,8 @@
   (q-create-users-table db))
 
 (defn create
-  [name]
-  (let [data {:name name}
+  [username]
+  (let [data {:username username}
         res (q-insert-user db data)
         new-id (get-id-from-insert res)]
     (get-by-id new-id)))

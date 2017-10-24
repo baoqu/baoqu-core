@@ -7,10 +7,10 @@
             [baoqu.configuration :refer [config]]
             [baoqu.handlers.root :refer [sse-handler example-handler]]
             [baoqu.handlers.middleware :refer [cors-handler]]
-            [baoqu.handlers.event :as event-handlers]
-            [baoqu.handlers.user :as user-handlers]
-            [baoqu.handlers.idea :as idea-handlers]
-            [baoqu.handlers.circle :as circle-handlers]))
+            [baoqu.handlers.event :as eh]
+            [baoqu.handlers.user :as uh]
+            [baoqu.handlers.idea :as ih]
+            [baoqu.handlers.circle :as ch]))
 
 (declare -main)
 
@@ -29,24 +29,24 @@
               [:prefix "api"
                [:any "" #'example-handler]
                [:prefix "users"
-                [:get ":id/path" #'user-handlers/path]]
-               [:get "user-circle/:id" #'circle-handlers/user-circle]
+                [:get ":id/path" #'uh/path]]
+               [:get "user-circle/:id" #'ch/user-circle]
                [:prefix "events"
-                [:get "" #'event-handlers/list]
-                [:get ":id" #'event-handlers/show]
-                [:get ":id/circles" #'event-handlers/circles]
-                [:get ":id/users" #'event-handlers/users]
-                [:post ":id/users" #'event-handlers/add-user]
-                [:get ":id/ideas" #'event-handlers/ideas]
-                [:get ":id/comments" #'event-handlers/comments]
-                [:get ":id/votes" #'event-handlers/votes]]
+                [:get "" #'eh/list]
+                [:get ":id" #'eh/show]
+                [:get ":id/circles" #'eh/circles]
+                [:get ":id/users" #'eh/users]
+                [:post ":id/users" #'eh/add-user]
+                [:get ":id/ideas" #'eh/ideas]
+                [:get ":id/comments" #'eh/comments]
+                [:get ":id/votes" #'eh/votes]]
                [:prefix "circles"
-                [:get ":id/comments" #'circle-handlers/comments]
-                [:post ":id/comments" #'circle-handlers/add-comment]
-                [:get ":id/ideas" #'circle-handlers/ideas]]
+                [:get ":id/comments" #'ch/comments]
+                [:post ":id/comments" #'ch/add-comment]
+                [:get ":id/ideas" #'ch/ideas]]
                [:prefix "ideas"
-                [:post "downvote" #'idea-handlers/downvote]
-                [:post "upvote" #'idea-handlers/upvote]]]]))
+                [:post "downvote" #'ih/downvote]
+                [:post "upvote" #'ih/upvote]]]]))
 
 (defn server-start
   []
