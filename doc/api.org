@@ -18,6 +18,34 @@
    This needs to change, from the "example" right now to a hash of the
    application's last commit.
 
+* Login
+
+** =POST /login=
+
+   *Request:*
+
+   | Param    | Type   | Required | Description                  |
+   |----------+--------+----------+------------------------------|
+   | username | string | yes      | The username to authenticate |
+   | password | string | yes      | The username's password      |
+
+   *Payload example:*
+
+   #+BEGIN_SRC js
+     {
+       "username": "myusername",
+       "password": "mypassword"
+     }
+   #+END_SRC
+
+   *Response:*
+
+   #+BEGIN_SRC js
+     {
+       "token": ""
+     }
+   #+END_SRC
+
 * Users
 
 ** =GET /api/users/:user-id/path=

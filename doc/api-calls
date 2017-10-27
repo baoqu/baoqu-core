@@ -63,3 +63,15 @@ POST http://localhost:5050/api/ideas/upvote
 
 # POST /api/ideas/downvote
 POST http://localhost:5050/api/ideas/downvote
+
+# POST /api/login
+POST http://localhost:5050/api/login
+
+{
+    "username": "Maik",
+    "password": "whatever"
+}
+
+# GET /api/check
+GET http://localhost:5050/api/check
+Cookie: auth=whoever;
