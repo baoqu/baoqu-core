@@ -8,11 +8,11 @@
 
 (defn load-initial-status
   []
-  (es/create "Probando Baoqu" 3 3))
+  (es/create "Probando Baoqu" "my description" 3 3))
 
 (defn load-all
   []
-  (let [event (es/create "Ciclismo en la Guindalera, una discusión abierta" 3 3)
+  (let [event (es/create "Ciclismo en la Guindalera, una discusión abierta" "Ma description" 3 3)
 
         ;; Users
         user1 (us/create "Ramira")

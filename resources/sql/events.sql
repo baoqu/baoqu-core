@@ -6,13 +6,14 @@
 create table events (
     id integer primary key autoincrement,
     name varchar(255),
+    description text,
     "circle-size" integer,
     "agreement-factor" integer
 )
 
 -- :name q-insert-event :i!
-insert into events (name, "circle-size", "agreement-factor")
-values (:name, :circle-size, :agreement-factor)
+insert into events (name, description, "circle-size", "agreement-factor")
+values (:name, :description, :circle-size, :agreement-factor)
 
 -- :name q-get-all :? :*
 select * from events
