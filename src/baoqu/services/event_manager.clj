@@ -83,8 +83,8 @@ At the beginning of the event, we will have all users inside level 0
   recursive `should-grow?` call is done on the n+1 circle.
 
   The same thing happens when shrinking a circle."
-  [user idea-name]
-  (let [idea (is/find-or-create-idea-by-name idea-name)
+  [user idea-name event-id]
+  (let [idea (is/find-or-create-idea-by-name-and-event idea-name event-id)
         circle (cs/get-highest-level-circle user)]
     (is/upvote-idea user idea)
     (send-sse {:idea idea :user user :circle-id (:id circle)} "upvote")
@@ -143,7 +143,7 @@ At the beginning of the event, we will have all users inside level 0
 
   Because of this, the `should-shrink?` test is done recursively, to
   cover the case of a user causing more various circles to shrink."
-  [user idea]
+  [user idea event-id]
   (let [circle (cs/get-highest-level-circle user)]
     (is/downvote-idea user idea)
     (send-sse {:idea idea :user user :circle-id (:id circle)} "downvote")

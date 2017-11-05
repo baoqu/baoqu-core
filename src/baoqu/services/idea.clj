@@ -5,9 +5,9 @@
   [id]
   (ir/get-by-id id))
 
-(defn get-by-name
-  [name]
-  (ir/get-by-name name))
+(defn get-by-name-and-event
+  [name event-id]
+  (ir/get-by-name-and-event name event-id))
 
 (defn get-all-for-event
   [{:keys [id]}]
@@ -18,14 +18,14 @@
   (ir/get-all-votes-for-event id))
 
 (defn create
-  [name]
-  (ir/create name))
+  [name event-id]
+  (ir/create name event-id))
 
-(defn find-or-create-idea-by-name
-  [name]
-  (let [idea (get-by-name name)]
+(defn find-or-create-idea-by-name-and-event
+  [name event-id]
+  (let [idea (get-by-name-and-event name event-id)]
     (if-not idea
-      (create name)
+      (create name event-id)
       idea)))
 
 (defn upvote-idea

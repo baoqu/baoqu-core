@@ -27,8 +27,8 @@
   (q-create-users-table db))
 
 (defn create
-  [username]
-  (let [data {:username username}
+  [username password-hash]
+  (let [data {:username username :password password-hash}
         res (q-insert-user db data)
         new-id (get-id-from-insert res)]
     (get-by-id new-id)))

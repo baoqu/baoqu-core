@@ -5,7 +5,10 @@
 -- :result :raw
 create table ideas (
     id integer primary key autoincrement,
-    name varchar(255) unique
+    name varchar(255),
+    "event-id" integer,
+    foreign key ("event-id") references event(id),
+    unique ("event-id", name)
 )
 
 -- :name q-create-users-ideas-table
@@ -20,28 +23,36 @@ create table users_ideas (
 )
 
 -- :name q-insert-idea :i!
-insert into ideas (name)
-values (:name)
+insert into ideas (name, "event-id")
+values (:name, :event-id)
 
 -- :name q-get-all :?
 select * from ideas
 
--- :name q-get-all-votes
-select * from users_ideas
+-- :name q-get-all-votes-for-event
+select ui.* from users_ideas as ui
+ inner join ideas as i
+         on ui."idea-id" = i.id
+      where i."event-id" = :event-id
 
 -- :name q-get-by-id :? :1
 select * from ideas
 where id=:id
 
--- :name q-get-by-name :? :1
+-- :name q-get-by-name-and-event :? :1
 select * from ideas
-where name=:name
+   where name=:name
+     and "event-id"=:event-id
 
 -- :name q-get-all-for-user :?
 select i.* from ideas as i
  inner join users_ideas as ui
          on i.id = ui."idea-id"
       where ui."user-id" = :user-id
+
+-- :name q-get-all-for-event :?
+select * from ideas
+   where "event-id"=:event-id
 
 -- :name q-get-vote :1
 select * from users_ideas

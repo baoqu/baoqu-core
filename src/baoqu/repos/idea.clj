@@ -21,30 +21,27 @@
   (let [idea (q-get-by-id db {:id id})]
     (if idea (hydrate idea) idea)))
 
-(defn get-by-name
-  [name]
-  (let [idea (q-get-by-name db {:name name})]
+(defn get-by-name-and-event
+  [name event-id]
+  (let [data {:name name :event-id event-id}
+        idea (q-get-by-name-and-event db data)]
     (if idea (hydrate idea) idea)))
 
 (defn get-all-for-event
   [id]
-  ;; TODO ideas are not related to events
-  ;; (q-get-all-for-event db {:event-id id})
-  (q-get-all db))
+  (q-get-all-for-event db {:event-id id}))
 
 (defn get-all-votes-for-event
   [id]
-  ;; TODO ideas are not related to events
-  ;; (q-get-all-votes-for-event db {:event-id id})
-  (q-get-all-votes db))
+  (q-get-all-votes-for-event db {:event-id id}))
 
 (defn get-all-for-user
   [user-id]
   (q-get-all-for-user db {:user-id user-id}))
 
 (defn create
-  [name]
-  (let [data {:name name}
+  [name event-id]
+  (let [data {:name name :event-id event-id}
         res (q-insert-idea db data)
         new-id (get-id-from-insert res)]
     (get-by-id new-id)))

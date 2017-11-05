@@ -15,7 +15,7 @@
 
 (defn sse-handler
   {:handler-type :catacumba/sse}
-  [ctx out]
+  [{:keys [out] :as ctx}]
   (let [local-c (chan)
         _ (tap main-mult local-c)]
     (go-loop []

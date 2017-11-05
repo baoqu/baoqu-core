@@ -8,6 +8,7 @@
                  [org.xerial/sqlite-jdbc "3.19.3"]
                  [org.clojure/tools.namespace "0.2.11"]
                  [funcool/catacumba "2.2.0"]
+                 [buddy/buddy-hashers "1.3.0"]
                  [org.slf4j/slf4j-simple "1.7.25"]
                  [environ "1.1.0"]
                  [mount "0.1.11"]]
@@ -18,6 +19,7 @@
   :aliases {"create-db" ["run" "-m" "baoqu.database.scripts/safely-create"]
             "remove-db" ["run" "-m" "baoqu.database.scripts/delete"]
             "reload-db" ["run" "-m" "baoqu.database.scripts/reload"]
+            "populate-db" ["run" "-m" "baoqu.database.fixtures/load-all"]
             "srv"       ["run" "-m" "baoqu.core/-main"]}
   :codox {:source-paths ["src"]
           :language :clojure

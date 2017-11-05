@@ -4,13 +4,15 @@
             [clojure.tools.namespace.repl :as repl]
             [catacumba.core :as ct]
             [catacumba.handlers.parse :as parse]
+            [catacumba.handlers.auth :as cauth]
             [baoqu.configuration :refer [config]]
             [baoqu.handlers.root :refer [sse-handler example-handler]]
             [baoqu.handlers.middleware :refer [cors-handler]]
             [baoqu.handlers.event :as eh]
             [baoqu.handlers.user :as uh]
             [baoqu.handlers.idea :as ih]
-            [baoqu.handlers.circle :as ch]))
+            [baoqu.handlers.circle :as ch]
+            [baoqu.services.auth :refer [auth-backend]]))
 
 (declare -main)
 
@@ -24,11 +26,14 @@
 
 (def app
   (ct/routes [[:any #'cors-handler]
+              [:any (cauth/auth auth-backend)]
               [:any (parse/body-params)]
               [:get "sse" #'sse-handler]
               [:prefix "api"
                [:any "" #'example-handler]
+               [:post "login" #'uh/login]
                [:prefix "users"
+                [:get ":id" #'uh/show]
                 [:get ":id/path" #'uh/path]]
                [:get "user-circle/:id" #'ch/user-circle]
                [:prefix "events"

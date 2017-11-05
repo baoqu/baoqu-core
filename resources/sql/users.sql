@@ -5,12 +5,13 @@
 -- :results :raw
 create table users (
     id integer primary key autoincrement,
-    username varchar(255)
+    username varchar(255),
+    password varchar(255)
 )
 
 -- :name q-insert-user :i!
-insert into users (username)
-values (:username)
+insert into users (username, password)
+values (:username, :password)
 
 -- :name q-get-by-id :? :1
 select * from users

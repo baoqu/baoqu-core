@@ -1,9 +1,14 @@
 (ns baoqu.services.event
-  (:require [baoqu.repos.event :as er]))
+  (:require [baoqu.repos.event :as er]
+            [baoqu.repos.idea :as ir]))
 
 (defn create
   [name description circle-size agreement-factor]
   (er/create name description circle-size agreement-factor))
+
++;(defn hydrate
++;  [event]
++;  (let [idea-count]))
 
 (defn get-all
   []

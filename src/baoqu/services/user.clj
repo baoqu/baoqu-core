@@ -1,11 +1,13 @@
 (ns baoqu.services.user
   (:require [baoqu.repos.user :as ur]
             [baoqu.repos.idea :as ir]
-            [baoqu.repos.circle :as cr]))
+            [baoqu.repos.circle :as cr]
+            [baoqu.services.auth :as as]))
 
 (defn create
-  [username]
-  (ur/create username))
+  [username password]
+  (let [password-hash (as/encrypt password)]
+    (ur/create username password-hash)))
 
 (defn hydrate-with-circles
   [user]
@@ -67,3 +69,11 @@
        (reverse)
        (map :id)
        (into [])))
+
+(defn authenticate
+  [username password]
+  (if-let [user (get-by-username username)]
+    (if (as/check password (:password user))
+      user
+      nil)
+    nil))

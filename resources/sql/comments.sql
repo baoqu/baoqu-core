@@ -7,8 +7,8 @@ create table comments (
          id integer primary key autoincrement,
   "user-id" integer,
 "circle-id" integer,
-       body integer,
-       date integer,
+       body text,
+       date date,
 foreign key ("user-id") references user(id),
 foreign key ("circle-id") references circle(id)
 )
@@ -30,18 +30,18 @@ delete from comments
  where id = :id
 
 -- :name q-get-all :?
-select c.*, u.name from comments as c
+select c.*, u.username from comments as c
 inner join users as u
         on u.id = c."user-id"
 
 -- :name q-get-all-for-circle :?
-select c.*, u.name from comments as c
+select c.*, u.username from comments as c
 inner join users as u
         on u.id = c."user-id"
  where "circle-id" = :circle-id
 
 -- :name q-get-by-id :? :1
-select c.*, u.name from comments as c
+select c.*, u.username from comments as c
 inner join users as u
         on u.id = c."user-id"
  where c.id = :id

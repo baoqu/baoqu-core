@@ -1,0 +1,15 @@
+# -*- restclient -*-
+# LOGIN
+POST http://localhost:5050/api/login
+Content-Type: application/json
+
+{
+    "name": "Ramira",
+    "password": "secret"
+}
+
+# GET USER
+GET http://localhost:5050/api/users/1
+
+# GET event list
+GET http://localhost:5050/api/events
