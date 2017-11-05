@@ -4,8 +4,8 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.9.0-alpha15"]
-                 [com.layerware/hugsql "0.4.8"]
-                 [org.xerial/sqlite-jdbc "3.20.1"]
+                 [com.layerware/hugsql "0.4.7"]
+                 [org.xerial/sqlite-jdbc "3.19.3"]
                  [org.clojure/tools.namespace "0.2.11"]
                  [funcool/catacumba "2.2.0"]
                  [org.slf4j/slf4j-simple "1.7.25"]
