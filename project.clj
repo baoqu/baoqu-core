@@ -10,8 +10,7 @@
                  [funcool/catacumba "2.2.0"]
                  [org.slf4j/slf4j-simple "1.7.25"]
                  [environ "1.1.0"]
-                 [mount "0.1.11"]
-                 [org.clojure/tools.namespace "0.2.11"]]
+                 [mount "0.1.11"]]
   :plugins [[lein-cucumber "1.0.2"]
             [lein-codox "0.9.5"]
             [lein-ancient "0.6.10"]
@@ -23,4 +22,4 @@
   :codox {:source-paths ["src"]
           :language :clojure
           :metadata {:doc/format :markdown}}
-  :profiles {:repl {:main baoqu.core}})
+  :profiles {:repl {:main baoqu.repl}})
