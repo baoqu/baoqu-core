@@ -24,8 +24,8 @@
   []
   (mount/stop))
 
-(def app
-  (ct/routes [[:any #'cors-handler]
+(defstate routes
+  :start (ct/routes [[:any #'cors-handler]
               [:any (cauth/auth auth-backend)]
               [:any (parse/body-params)]
               [:get "sse" #'sse-handler]
@@ -51,12 +51,13 @@
                 [:get ":id/ideas" #'ch/ideas]]
                [:prefix "ideas"
                 [:post "downvote" #'ih/downvote]
-                [:post "upvote" #'ih/upvote]]]]))
+                [:post "upvote" #'ih/upvote]]]])
+  :stop nil)
 
 (defn server-start
   []
   (let [server-port (:server-port config)]
-    (ct/run-server app {:port server-port})))
+    (ct/run-server routes {:port server-port})))
 
 (defstate server
   :start (server-start)
