@@ -6,12 +6,13 @@
 
 (defn login
   [ctx]
-  (let [name (get-in ctx [:data :name])
+  (let [username (get-in ctx [:data :username])
         password (get-in ctx [:data :password])
-        {:keys [id]} (us/get-by-username name)]
-    (if (us/authenticate name password)
-      ;; generate and return token -- TEMP -- return ok or ko
-      (json 200 {:status "ok" :id id :name name})
+        {:keys [id]} (us/get-by-username username)
+        authenticated? (us/authenticate username password)
+        data {:id id :username username}]
+    (if authenticated?
+      (json 200 {:status "ok" :id id :username username :token (as/sign data)})
       (json 401 {:status "ko"}))))
 
 (defn cookie-login

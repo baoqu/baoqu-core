@@ -7,4 +7,5 @@
 (def config
   {:db-path (env :bc-db-path default-database-path)
    :server-port (Integer/parseInt (env :bc-server-port "5050"))
-   :server-url (env :bc-server-url (str "http://localhost:" (env :bc-server-port "5050")))})
+   :server-url (env :bc-server-url (str "http://localhost:" (env :bc-server-port "5050")))
+   :jwt-secret (env :bc-db-path "mysupersecret")})
