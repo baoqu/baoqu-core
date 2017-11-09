@@ -13,7 +13,10 @@
 
 (defn unsign
   [token]
-  (jwt/unsign token (:jwt-secret config)))
+  (try
+    (jwt/unsign token (:jwt-secret config))
+    (catch Exception e
+      nil)))
 
 (defn encrypt
   [data]

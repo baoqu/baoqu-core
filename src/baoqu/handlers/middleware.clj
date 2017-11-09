@@ -1,5 +1,7 @@
 (ns baoqu.handlers.middleware
-  (:require [catacumba.core :as ct]))
+  (:require [catacumba.core :as ct]
+            [cuerdas.core :as str]
+            [baoqu.services.auth :as as]))
 
 (defn cors-handler
   [ctx]
@@ -11,3 +13,16 @@
     {:status 200
      :body ""}
     (ct/delegate)))
+
+(defn- clean-token
+  [token]
+  (if (str/starts-with? token "Bearer ")
+    (.replace token "Bearer " "")
+    token))
+
+(defn parse-token
+  [ctx]
+  (let [authorization (get-in ctx [:headers :authorization])
+        token (clean-token authorization)
+        identity (as/unsign token)]
+    (ct/delegate {:identity identity})))

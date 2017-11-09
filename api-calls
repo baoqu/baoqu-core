@@ -2,9 +2,10 @@
 # LOGIN
 POST http://localhost:5050/api/login
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJSYW1pcmEifQ.Ua1CKdn_Vebua2dNdNMUdoPUoE-N0NPLuN4WePxR66k
 
 {
-    "name": "Ramira",
+    "username": "Ramira",
     "password": "secret"
 }
 
