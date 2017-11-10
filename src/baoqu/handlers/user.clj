@@ -15,6 +15,16 @@
       (json 200 {:status "ok" :id id :username username :token (as/sign data)})
       (json 401 {:status "ko"}))))
 
+(defn register
+  [ctx]
+  (let [username (get-in ctx [:data :username])
+        password (get-in ctx [:data :password])]
+    (if-not (us/get-by-username username)
+      (do
+        (us/create username password)
+        (json 201))
+      (json 400 {:message "User already exists"}))))
+
 (defn cookie-login
   [ctx]
   (ct/set-cookies! ctx {:auth {:value "whoever"}})

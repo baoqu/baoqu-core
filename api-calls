@@ -9,6 +9,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hb
     "password": "secret"
 }
 
+# REGISTER
+POST http://localhost:5050/api/register
+Content-Type: application/json
+
+{
+    "username": "Whatever",
+    "password": "whatever"
+}
+
 # GET USER
 GET http://localhost:5050/api/users/1
 

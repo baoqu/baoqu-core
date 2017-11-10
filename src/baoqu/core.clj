@@ -31,6 +31,7 @@
                      [:prefix "api"
                       [:any "" #'example-handler]
                       [:post "login" #'uh/login]
+                      [:post "register" #'uh/register]
                       [:prefix "users"
                        [:get ":id" #'uh/show]
                        [:get ":id/path" #'uh/path]]
