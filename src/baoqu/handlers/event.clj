@@ -81,21 +81,15 @@
 
 (defn add-user
   [ctx]
-  (let [id (get-in ctx [:route-params :id])
-        event (es/get-by-id id)
+  (let [event-id (get-in ctx [:route-params :id])
+        event (es/get-by-id event-id)
         name (get-in ctx [:data :name])
-        user (us/get-by-username name)]
-    (println "[HNDLR] event/add-user > event-id=" id " user-name=" name)
-    (if (not event)
-      (json 404))
-    (if user
-      (let [already-in-event (es/is-user-in-event? user event)]
-        (if-not already-in-event
-          (as-> user x
-            (ems/add-user-to-event x event)
-            (json 200 x))
-          (json 200 user)))
-      (as-> name x
-        (us/create x)
-        (ems/add-user-to-event x event)
-        (json 200 x)))))
+        user (us/get-user-from-ctx ctx)]
+    (println "[HNDLR] event/add-user > event-id=" event-id " user-name=" name)
+    (if (or (not event) (not user))
+      (json 404)
+      (if-not (es/is-user-in-event? user event)
+        (as-> user x
+          (ems/add-user-to-event x event-id)
+          (json 200 x))
+        (json 200 user)))))
