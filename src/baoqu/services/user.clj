@@ -77,3 +77,7 @@
       user
       nil)
     nil))
+
+(defn get-user-from-ctx
+  [{{user-id :id} :identity}]
+  (get-by-id user-id))
