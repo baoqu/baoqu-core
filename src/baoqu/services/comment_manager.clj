@@ -6,6 +6,7 @@
   [user circle body]
   (let [new-comment (cs/create user circle body)
         circle-id (:id circle)
+        event-id (:event-id circle)
         payload (merge new-comment {:circle-id circle-id})]
-    (send-sse payload "comment")
+    (send-sse payload event-id "comment")
     new-comment))

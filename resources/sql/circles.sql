@@ -90,14 +90,16 @@ having count(cs."user-id") < :agreement-factor;
 select * from circles as c
  inner join users_circles as uc
     on (c.id = uc."circle-id")
- where uc."user-id" = :user-id
-   and c.level = :level
+ where uc."user-id"=:user-id
+   and c.level=:level
+   and c."event-id"=:event-id
 
 -- :name q-get-highest-level-circle :? :1
 select * from circles as c
  inner join users_circles as uc
          on (c.id=uc."circle-id")
  where uc."user-id"=:user-id
+   and c."event-id"=:event-id
  order by level desc
 
 -- :name q-get-circle-ideas :?
@@ -118,5 +120,6 @@ select i.id, i.name, count(uc."user-id") as votes
  inner join ideas as i
          on (ui."idea-id" = i.id)
  where uc."circle-id" = :circle-id
+   and i."event-id" = :event-id
  group by i.id
 having votes = :agreement-factor

@@ -55,8 +55,12 @@ select * from ideas
    where "event-id"=:event-id
 
 -- :name q-get-vote :1
-select * from users_ideas
-where "user-id"=:user-id and "idea-id"=:idea-id
+select * from users_ideas as ui
+   inner join ideas as i
+           on ui."idea-id" = i.id
+where "user-id"=:user-id
+  and "idea-id"=:idea-id
+ and "event-id"=:event-id
 
 -- :name q-upvote :i!
 insert into users_ideas ("user-id", "idea-id")

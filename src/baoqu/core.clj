@@ -27,7 +27,7 @@
   :start (ct/routes [[:any #'cors-handler]
                      [:any #'parse-token]
                      [:any (parse/body-params)]
-                     [:get "sse" #'sse-handler]
+                     [:get "sse/:event-id" #'sse-handler]
                      [:prefix "api"
                       [:any "" #'example-handler]
                       [:post "login" #'uh/login]
@@ -35,11 +35,11 @@
                       [:prefix "users"
                        [:get ":id" #'uh/show]
                        [:get ":id/path" #'uh/path]]
-                      [:get "user-circle/:id" #'ch/user-circle]
                       [:prefix "events"
                        [:get "" #'eh/list]
                        [:get ":id" #'eh/show]
                        [:get ":id/circles" #'eh/circles]
+                       [:get ":id/user-circle" #'ch/user-circle]
                        [:get ":id/users" #'eh/users]
                        [:post ":id/users" #'eh/add-user]
                        [:get ":id/ideas" #'eh/ideas]

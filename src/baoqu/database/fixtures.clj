@@ -75,7 +75,7 @@
     (ems/downvote user7 idea6 event-id)
 
     ;; Add comments
-    (def user-7-circle (cs/get-highest-level-circle user7))
+    (def user-7-circle (cs/get-highest-level-circle user7 event-id))
     (cms/create user7 user-7-circle "Hola bobos!")
 
     ))

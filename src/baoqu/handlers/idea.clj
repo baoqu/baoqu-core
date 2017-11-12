@@ -6,8 +6,7 @@
 
  (defn upvote
   [ctx]
-  (let [user-id (get-in ctx [:data :user-id])
-        user (us/get-by-id user-id)
+  (let [user (us/get-user-from-ctx ctx)
         idea-name (get-in ctx [:data :idea-name])
         event-id (get-in ctx [:data :event-id])]
     (if (not user)
@@ -16,11 +15,10 @@
 
 (defn downvote
   [ctx]
-  (let [user-id (get-in ctx [:data :user-id])
-        user (us/get-by-id user-id)
+  (let [user (us/get-user-from-ctx ctx)
         idea-name (get-in ctx [:data :idea-name])
         event-id (get-in ctx [:data :event-id])
         idea (is/get-by-name-and-event idea-name event-id)]
     (if (or (not user) (not idea))
       (json 404)
-      (json 200 (ems/downvote user idea)))))
+      (json 200 (ems/downvote user idea event-id)))))

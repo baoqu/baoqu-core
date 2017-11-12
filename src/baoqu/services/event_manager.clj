@@ -59,10 +59,11 @@ At the beginning of the event, we will have all users inside level 0
   After adding the user to either the empty or the half filled circle,
   we will send an event to the frontend."
   [user event]
-  (let [agreement-factor (:agreement-factor event)
+  (let [event-id (:id event)
+        agreement-factor (:agreement-factor event)
         incomplete-circle (cs/find-or-create-incomplete-circle-for-event-and-level event 1 agreement-factor)]
     (cs/add-user-to-circle user incomplete-circle)
-    (send-sse {} "new-user")
+    (send-sse {} event-id "new-user")
     user))
 
 (declare grow-circle)
@@ -85,9 +86,9 @@ At the beginning of the event, we will have all users inside level 0
   The same thing happens when shrinking a circle."
   [user idea-name event-id]
   (let [idea (is/find-or-create-idea-by-name-and-event idea-name event-id)
-        circle (cs/get-highest-level-circle user)]
+        circle (cs/get-highest-level-circle user event-id)]
     (is/upvote-idea user idea)
-    (send-sse {:idea idea :user user :circle-id (:id circle)} "upvote")
+    (send-sse {:idea idea :user user :circle-id (:id circle)} event-id "upvote")
     (loop [circle circle]
       (if (should-grow? circle)
         (recur (grow-circle circle))
@@ -113,7 +114,8 @@ At the beginning of the event, we will have all users inside level 0
   sends a sse notification to the clients for them to show it in the
   ui."
   [circle]
-  (let [event (es/get-by-id (:event-id circle))
+  (let [event-id (:event-id circle)
+        event (es/get-by-id event-id)
         circle-id (:id circle)
         next-level (+ 1 (:level circle))
         circle-size (:circle-size event)
@@ -121,8 +123,8 @@ At the beginning of the event, we will have all users inside level 0
         leveled-agreement-factor (utils/get-leveled-agreement-factor circle-size next-level agreement-factor)
         next-circle (cs/find-or-create-incomplete-circle-for-event-and-level event next-level leveled-agreement-factor)]
     (cs/become-child circle next-circle)
-    (send-sse {} "grow")
-    (send-sse {"circle-id" circle-id "title" "Habéis alcanzado un acuerdo" "description" "Ahora os vamos a juntar con más gente que ha conseguido también un acuerdo, a ver si sois capaces de llegar a un acuerdo. ¿De acuerdo?"} "notification")
+    (send-sse {} event-id "grow")
+    (send-sse {"circle-id" circle-id "title" "Habéis alcanzado un acuerdo" "description" "Ahora os vamos a juntar con más gente que ha conseguido también un acuerdo, a ver si sois capaces de llegar a un acuerdo. ¿De acuerdo?"} event-id "notification")
     next-circle))
 
 (declare shrink-circle-from-user)
@@ -144,12 +146,12 @@ At the beginning of the event, we will have all users inside level 0
   Because of this, the `should-shrink?` test is done recursively, to
   cover the case of a user causing more various circles to shrink."
   [user idea event-id]
-  (let [circle (cs/get-highest-level-circle user)]
+  (let [circle (cs/get-highest-level-circle user event-id)]
     (is/downvote-idea user idea)
-    (send-sse {:idea idea :user user :circle-id (:id circle)} "downvote")
+    (send-sse {:idea idea :user user :circle-id (:id circle)} event-id "downvote")
     (loop [user user]
-      (if (should-shrink? user)
-        (recur (shrink-circle-from-user user))
+      (if (should-shrink? user event-id)
+        (recur (shrink-circle-from-user user event-id))
         user))))
 
 (defn should-shrink?
@@ -160,7 +162,7 @@ At the beginning of the event, we will have all users inside level 0
   It starts obtaining the highest circle the user is in, because is
   the first one which could shrink. Then it checks for the agreements
   and if there are none left, it decides it should shrink."
-  [user]
+  [user event-id]
   (let [circle (cs/get-highest-agreed-circle user)]
     (if-not (empty? circle)
       (let [agreements (cs/get-circle-agreements circle (:size circle))]
@@ -180,15 +182,18 @@ At the beginning of the event, we will have all users inside level 0
   When the process is completed, we send a notification to the
   front-end and return the user to be used in the recursive
   `should-shrink?` call."
-  [user]
-  (let [hightest-circle (cs/get-highest-level-circle user)
-        hightest-agreed-circle (cs/get-highest-agreed-circle user)]
+  [user event-id]
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; habrá que cambiar estas funciones para que usen event-id
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  (let [hightest-circle (cs/get-highest-level-circle user event-id)
+        hightest-agreed-circle (cs/get-highest-agreed-circle user event-id)]
     (cs/remove-child hightest-agreed-circle hightest-circle)
     ;; (send-sse {"circle-id" (:id hightest-circle) "title" "Parece que ya no estáis de acuerdo" "description" "Os vamos a separar para que intentéis encontrar de nuevo aquella idea que compartís."} "notification")
     ;; Related to the SSE message: There is no way to distinguish if
     ;; I'm shrinking or just observing how a brother shrinks
     ;; TODO: include a path in the client's state
-    (send-sse {} "shrink")
+    (send-sse {} event-id "shrink")
     user))
 
 (defn show-event-detail

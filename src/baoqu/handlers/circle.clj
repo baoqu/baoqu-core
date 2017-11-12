@@ -7,9 +7,9 @@
 
 (defn user-circle
   [ctx]
-  (let [id (get-in ctx [:route-params :id])
-        user (us/get-by-id id)]
-    (json 200 (cs/get-highest-level-circle user))))
+  (let [event-id (get-in ctx [:route-params :id])
+        user (us/get-user-from-ctx ctx)]
+    (json 200 (cs/get-highest-level-circle user event-id))))
 
 (defn ideas
   [ctx]

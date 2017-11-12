@@ -89,19 +89,19 @@
   (cr/add-user-to-circle (:id user) (:id circle)))
 
 (defn get-circle-for-user-and-level
-  [user level]
-  (cr/get-circle-for-user-and-level (:id user) level))
+  [user level event-id]
+  (cr/get-circle-for-user-and-level (:id user) level event-id))
 
 (defn get-highest-level-circle
-  [user]
-  (cr/get-highest-level-circle (:id user)))
+  [user event-id]
+  (cr/get-highest-level-circle (:id user) event-id))
 
 (defn get-highest-agreed-circle
   "Highest circle - 1"
-  [user]
-  (when-let [highest-circle (get-highest-level-circle user)]
+  [user event-id]
+  (when-let [highest-circle (get-highest-level-circle user event-id)]
     (->> (- (:level highest-circle) 1)
-         (get-circle-for-user-and-level user))))
+         (get-circle-for-user-and-level user event-id))))
 
 (defn get-circle-ideas
   [circle]
@@ -121,8 +121,6 @@
     (hydrate-with-user-votes ideas user)))
 
 (defn get-circle-agreements
-  [circle agreement-factor]
-  (let [size (:size circle)
-        level (:level circle)
-        leveled-agreement-factor (utils/get-leveled-agreement-factor size level agreement-factor)]
-    (cr/get-circle-agreements (:id circle) leveled-agreement-factor)))
+  [{:keys [size level event-id] :as circle} agreement-factor]
+  (let [leveled-agreement-factor (utils/get-leveled-agreement-factor size level agreement-factor)]
+    (cr/get-circle-agreements (:id circle) leveled-agreement-factor event-id)))

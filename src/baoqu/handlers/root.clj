@@ -16,17 +16,21 @@
 (defn sse-handler
   {:handler-type :catacumba/sse}
   [{:keys [out] :as ctx}]
-  (let [local-c (chan)
+  (let [client-event-id (get-in ctx [:route-params :event-id])
+        local-c (chan)
         _ (tap main-mult local-c)]
     (go-loop []
-      (when-let [msg (<! local-c)]
-        (if-not (>! out msg)
-          (do
-            (println "=================")
-            (println "CLOSING A CHANNEL")
-            (println "=================")
-            (close! local-c))
-          (recur))))))
+      (when-let [{:keys [event-id] :as msg} (<! local-c)]
+        (if (= client-event-id event-id)
+          (let [msg (dissoc msg :event-id)
+                msg-string (generate-string msg)]
+            (if-not (>! out msg-string)
+              (do
+                (println "=================")
+                (println "CLOSING A CHANNEL")
+                (println "=================")
+                (close! local-c))
+              (recur))))))))
 
 ;; (defn sse-handler
 ;;   {:handler-type :catacumba/sse}

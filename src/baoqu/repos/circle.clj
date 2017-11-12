@@ -74,19 +74,19 @@
     (q-get-all-incomplete db data)))
 
 (defn get-circle-for-user-and-level
-  [user-id level]
-  (let [data {:user-id user-id :level level}]
+  [user-id level event-id]
+  (let [data {:user-id user-id :level level :event-id event-id}]
     (q-get-circle-for-user-and-level db data)))
 
 (defn get-highest-level-circle
-  [user-id]
-  (q-get-highest-level-circle db {:user-id user-id}))
+  [user-id event-id]
+  (q-get-highest-level-circle db {:user-id user-id :event-id event-id}))
 
 (defn get-circle-ideas
   [circle-id]
   (q-get-circle-ideas db {:circle-id circle-id}))
 
 (defn get-circle-agreements
-  [circle-id agreement-factor]
-  (let [data {:agreement-factor agreement-factor :circle-id circle-id}]
+  [circle-id agreement-factor event-id]
+  (let [data {:agreement-factor agreement-factor :circle-id circle-id :event-id event-id}]
     (q-get-circle-agreements db data)))
