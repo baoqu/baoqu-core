@@ -23,4 +23,4 @@
         idea (is/get-by-name-and-event idea-name event-id)]
     (if (or (not user) (not idea))
       (json 404)
-      (json 200 (ems/downvote user idea)))))
+      (json 200 (ems/downvote user idea event-id)))))

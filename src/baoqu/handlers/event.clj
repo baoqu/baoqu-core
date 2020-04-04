@@ -90,6 +90,6 @@
       (json 404)
       (if-not (es/is-user-in-event? user event)
         (as-> user x
-          (ems/add-user-to-event x event-id)
+          (ems/add-user-to-event x event)
           (json 200 x))
         (json 200 user)))))
