@@ -24,7 +24,8 @@
   (mount/stop))
 
 (defstate routes
-  :start (ct/routes [[:any #'cors-handler]
+  :start (ct/routes [[:assets "" {:dir "public" :indexes ["index.html"]}]
+                     [:any #'cors-handler]
                      [:any #'parse-token]
                      [:any (parse/body-params)]
                      [:get "sse" #'sse-handler]
@@ -56,8 +57,10 @@
 
 (defn server-start
   []
-  (let [server-port (:server-port config)]
-    (ct/run-server routes {:port server-port})))
+  (let [server-port (:server-port config)
+        basedir (:basedir config)]
+    (println (str "Starting server with basedir " basedir))
+    (ct/run-server routes {:port server-port :basedir basedir})))
 
 (defstate server
   :start (server-start)
